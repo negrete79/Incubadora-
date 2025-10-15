@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incubadora Digital - Gestão de Ovos de Aves</title>
+    
+    <!-- Meta tags para PWA -->
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Incubadora Digital">
+    
+    <!-- Ícones para PWA -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e3a8a' width='192' height='192'/><path fill='%2360a5fa' d='M96 40c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 96c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z'/><circle fill='%2360a5fa' cx='96' cy='96' r='20'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e3a8a' width='192' height='192'/><path fill='%2360a5fa' d='M96 40c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 96c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z'/><circle fill='%2360a5fa' cx='96' cy='96' r='20'/></svg>">
+    
+    <!-- Manifest para PWA -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkludWJhZG9yYSBEaWdpdGFsIiwKICAic2hvcnRfbmFtZSI6ICJJbnViYWRvcmEiLAogICJkZXNjcmlwdGlvbiI6ICJHaXN0w6NvIGRlIG92b3MgZGUgYXZlcyBwYXJhIGluY3ViYWRvcmEiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzFlM2E4YSIsCiAgInRoZW1lX2NvbG9yIjogIiMxZTNhOGEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDwvc3ZnPiIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    
+    <!-- Fonte para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== VARIÁVEIS CSS E RESET ===== */
+        :root {
+            /* Tema Azul Mar (Claro) */
+            --primary-color: #1e3a8a;
+            --primary-light: #1e40af;
+            --primary-dark: #1e293b;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
+            --bg-color: #f0f9ff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(59, 130, 246, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glow: 0 0 20px rgba(59, 130, 246, 0.5);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Tema Escuro */
+        [data-theme="dark"] {
+            --primary-color: #0f172a;
+            --primary-light: #1e293b;
+            --primary-dark: #020617;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-color: #f8fafc;
+            --dark-color: #334155;
+            --text-color: #f8fafc;
+            --text-secondary: #94a3b8;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.9);
+            --border-color: rgba(99, 102, 241, 0.3);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            /* Proteção contra cópia */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Proteção contra cópia - permitir seleção apenas em inputs */
+        input, select, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* ===== CANVAS DE PARTÍCULAS ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .install-btn {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            animation: installPulse 2s infinite;
+        }
+
+        @keyframes installPulse {
+            0%, 100% { 
+                transform: translateY(0);
+                box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            }
+            50% { 
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            }
+        }
+
+        .install-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .install-btn.installed {
+            background: linear-gradient(135deg, var(--text-secondary), #475569);
+            animation: none;
+            cursor: default;
+        }
+
+        .find-app-btn {
+            background: linear-gradient(135deg, var(--warning-color), #d97706);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .find-app-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .find-app-btn.show {
+            display: inline-flex;
+        }
+
+        /* ===== SEÇÃO PRINCIPAL ===== */
+        main {
+            padding: 3rem 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: var(--glow);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.8)); }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== BOTÃO ADICIONAR ===== */
+        .add-btn-container {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .add-btn:hover::before {
+            left: 100%;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-header h2 {
+            color: var(--text-color);
+            font-size: 1.75rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: var(--danger-color);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        /* ===== FORMULÁRIO ===== */
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-group input::placeholder,
+        .form-group select::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-group small {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--text-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-color);
+        }
+
+        /* ===== CARDS DE REGISTROS ===== */
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .record-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .record-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--secondary-color), var(--accent-color));
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .record-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .record-species {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .record-species i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.6));
+        }
+
+        .record-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 50%;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            transform: scale(1.1);
+        }
+
+        .icon-btn.edit:hover {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .icon-btn.delete:hover {
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .record-info {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .info-item i {
+            width: 24px;
+            color: var(--secondary-color);
+            font-size: 1.25rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            margin-right: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===== ESTADOS VAZIO ===== */
+        .empty-state {
+            text-align: center;
+            padding: 6rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        /* ===== TOAST NOTIFICAÇÃO ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            padding: 1.25rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transform: translateX(500px);
+            transition: transform 0.3s ease;
+            z-index: 2000;
+            max-width: 350px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .toast.error {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .toast.warning {
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ===== RODAPÉ ===== */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            backdrop-filter: blur(10px);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-content {
+            text-align: center;
+            color: var(--light-color);
+        }
+
+        .footer-credits {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .footer-credits span {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== AVISO DE PROTEÇÃO ===== */
+        .protection-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .protection-warning.show {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .protection-warning i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* ===== MODAL ONDE ENCONTRAR APP ===== */
+        .find-app-modal .modal-content {
+            max-width: 700px;
+        }
+
+        .app-status {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .status-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--success-color);
+        }
+
+        .status-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .status-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .troubleshooting {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .troubleshooting h3 {
+            color: var(--warning-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .troubleshooting ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-left: 1.5rem;
+        }
+
+        .troubleshooting li {
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-instructions {
+            margin-top: 2rem;
+        }
+
+        .platform-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .platform-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .platform-item.highlighted {
+            border: 2px solid var(--secondary-color);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .platform-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .platform-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .platform-steps {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .platform-steps ol {
+            margin-left: 1.5rem;
+        }
+
+        .platform-steps li {
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .quick-action-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .quick-action-btn.secondary {
+            background: linear-gradient(135deg, var(--text-secondary), #475569);
+        }
+
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+            25% { transform: translate(-50%, -50%) translateX(-15px); }
+            75% { transform: translate(-50%, -50%) translateX(15px); }
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .records-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .toast {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+                bottom: 20px;
+            }
+
+            .header-content {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .logo i {
+                font-size: 2rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .find-app-btn {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .quick-actions {
+                flex-direction: column;
+            }
+
+            .quick-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .add-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem 2rem;
+            }
+
+            .record-card {
+                padding: 1.5rem;
+            }
+
+            .record-species {
+                font-size: 1.25rem;
+            }
+
+            .record-species i {
+                font-size: 1.5rem;
+            }
+
+            .footer-credits {
+                font-size: 1rem;
+            }
+
+            .install-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .platform-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- CANVAS DE PARTÍCULAS -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- AVISO DE PROTEÇÃO CONTRA CÓPIA -->
+    <div class="protection-warning" id="protectionWarning">
+        <i class="fas fa-shield-alt"></i>
+        <p><strong>Proteção Ativa!</strong></p>
+        <p>Cópia de código não permitida!</p>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dna"></i>
+                    <span>Incubadora Digital</span>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="install-btn" id="installBtn">
+                        <i class="fas fa-download"></i> Instalar App
+                    </button>
+                    <button class="find-app-btn" id="findAppBtn" title="Onde encontrar o app?">
+                        <i class="fas fa-question-circle"></i> Onde?
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <div class="container">
+            <!-- SEÇÃO HERO -->
+            <section class="hero">
+                <h1>Gestão de Incubação de Aves</h1>
+                <p>Sistema avançado para controle preciso do processo de incubação de ovos de diversas espécies</p>
+            </section>
+
+            <!-- BOTÃO ADICIONAR -->
+            <div class="add-btn-container">
+                <button class="add-btn" id="addRecordBtn">
+                    <i class="fas fa-plus-circle"></i>
+                    Adicionar Novo Registro
+                </button>
+            </div>
+
+            <!-- GRID DE REGISTROS -->
+            <section id="recordsContainer">
+                <div class="records-grid" id="recordsGrid">
+                    <!-- Os cards serão inseridos aqui dinamicamente -->
+                </div>
+            </section>
+
+            <!-- ESTADO VAZIO -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-egg-slash"></i>
+                <h3>Nenhum registro encontrado</h3>
+                <p>Comece adicionando um novo registro de incubação</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-credits">
+                    Criado por <span>Elias Costa Negret's</span>
+                </div>
+                <div class="footer-copyright">
+                    © 2024 Incubadora Digital. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL FORMULÁRIO -->
+    <div class="modal" id="recordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Adicionar Registro</h2>
+                <button class="close-btn" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="recordForm">
+                <div class="form-group">
+                    <label for="species">Espécie *</label>
+                    <select id="species" required>
+                        <option value="">Selecione uma espécie</option>
+                        <option value="galinha">Galinha</option>
+                        <option value="pato">Pato</option>
+                        <option value="ganso">Ganso</option>
+                        <option value="codorna">Codorna</option>
+                        <option value="peru">Peru</option>
+                        <option value="faisão">Faisão</option>
+                        <option value="pavão">Pavão</option>
+                        <option value="cisne">Cisne</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eggCount">Quantidade de Ovos *</label>
+                    <input type="number" id="eggCount" min="1" required placeholder="Ex: 12">
+                </div>
+                <div class="form-group">
+                    <label for="incubationDays">Tempo de Incubação (dias) *</label>
+                    <input type="number" id="incubationDays" min="1" required placeholder="Ex: 21">
+                    <small>Valor padrão será preenchido automaticamente</small>
+                </div>
+                <div class="form-group">
+                    <label for="temperature">Temperatura (°C) *</label>
+                    <input type="number" id="temperature" step="0.1" min="30" max="40" required placeholder="Ex: 37.5">
+                    <small>Valor padrão será preenchido automaticamente</small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL ONDE ENCONTRAR APP -->
+    <div class="modal find-app-modal" id="findAppModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Onde Encontrar o App Instalado</h2>
+                <button class="close-btn" onclick="closeFindAppModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="app-status">
+                <i class="fas fa-check-circle status-icon"></i>
+                <div class="status-title">App Instalado com Sucesso!</div>
+                <div class="status-description">
+                    O app foi instalado no seu dispositivo. Se você não o encontrou, siga as instruções abaixo para sua plataforma.
+                </div>
+            </div>
+
+            <div class="troubleshooting">
+                <h3><i class="fas fa-tools"></i> Não encontrou o app?</h3>
+                <ul>
+                    <li>Verifique se você concluiu todos os passos de instalação</li>
+                    <li>Reinicie seu dispositivo e tente novamente</li>
+                    <li>Alguns navegadores podem não suportar instalação PWA</li>
+                    <li>Verifique as permissões do navegador</li>
+                </ul>
+            </div>
+
+            <div class="platform-instructions">
+                <div class="platform-item" id="android-instructions">
+                    <div class="platform-header">
+                        <i class="fab fa-android platform-icon"></i>
+                        <div class="platform-name">Android (Chrome)</div>
+                    </div>
+                    <div class="platform-steps">
+                        <ol>
+                            <li><strong>Volte para a tela inicial</strong> do seu celular</li>
+                            <li><strong>Deslize para cima</strong> para abrir a gaveta de aplicativos</li>
+                            <li><strong>Procure pelo ícone</strong> do "Incubadora Digital"</li>
+                            <li><strong>Pressione e segure</strong> o ícone para mover para a tela inicial</li>
+                            <li><strong>Dica:</strong> O app pode estar no final da lista</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="platform-item" id="ios-instructions">
+                    <div class="platform-header">
+                        <i class="fab fa-apple platform-icon"></i>
+                        <div class="platform-name">iOS (Safari)</div>
+                    </div>
+                    <div class="platform-steps">
+                        <ol>
+                            <li>O app foi instalado <strong>diretamente na tela inicial</strong></li>
+                            <li><strong>Procure em todas as páginas</strong> da tela inicial</li>
+                            <li><strong>Verifique pastas</strong> onde o app possa ter sido colocado</li>
+                            <li><strong>Use a busca</strong> deslizando para baixo na tela inicial</li>
+                            <li><strong>Dica:</strong> Em iOS, o app aparece como um ícone normal</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="platform-item" id="windows-instructions">
+                    <div class="platform-header">
+                        <i class="fab fa-windows platform-icon"></i>
+                        <div class="platform-name">Windows (Chrome/Edge)</div>
+                    </div>
+                    <div class="platform-steps">
+                        <ol>
+                            <li><strong>Abra o Menu Iniciar</strong> do Windows</li>
+                            <li><strong>Digite "Incubadora"</strong> na barra de busca</li>
+                            <li><strong>Clique com o botão direito</strong> para fixar na barra de tarefas</li>
+                            <li><strong>Verifique a lista</strong> de todos os aplicativos</li>
+                            <li><strong>Dica:</strong> Pode estar como "Incubadora Digital" ou apenas "Incubadora"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="platform-item" id="macos-instructions">
+                    <div class="platform-header">
+                        <i class="fab fa-apple platform-icon"></i>
+                        <div class="platform-name">macOS (Chrome/Safari)</div>
+                    </div>
+                    <div class="platform-steps">
+                        <ol>
+                            <li><strong>Abra o Launchpad</strong> (ícone de foguete no dock)</li>
+                            <li><strong>Verifique a pasta Aplicativos</strong> no Finder</li>
+                            <li><strong>Procure no dock</strong> na parte inferior da tela</li>
+                            <li><strong>Use o Spotlight</strong> pressionando ⌘ + Space e digite "Incubadora"</li>
+                            <li><strong>Dica:</strong> Arraste o ícone para o dock para acesso rápido</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="platform-item" id="linux-instructions">
+                    <div class="platform-header">
+                        <i class="fab fa-linux platform-icon"></i>
+                        <div class="platform-name">Linux (Chrome/Firefox)</div>
+                    </div>
+                    <div class="platform-steps">
+                        <ol>
+                            <li><strong>Verifique o menu de aplicativos</strong> da sua distribuição</li>
+                            <li><strong>Procure na área de trabalho</strong> por um atalho</li>
+                            <li><strong>Verifique o dock ou painel</strong> lateral de aplicativos</li>
+                            <li><strong>Use a busca do sistema</strong> e digite "Incubadora"</li>
+                            <li><strong>Dica:</strong> Em algumas distros, cria um atalho na área de trabalho</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-action-btn" onclick="checkInstallationAgain()">
+                    <i class="fas fa-sync-alt"></i> Verificar Instalação
+                </button>
+                <button class="quick-action-btn secondary" onclick="openInBrowser()">
+                    <i class="fas fa-globe"></i> Abrir no Navegador
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICAÇÃO -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== SISTEMA DE PARTÍCULAS =====
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particles-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.particleCount = 100;
+                this.connectionDistance = 150;
+                this.mouseX = 0;
+                this.mouseY = 0;
+                
+                this.init();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.init());
+                window.addEventListener('mousemove', (e) => {
+                    this.mouseX = e.clientX;
+                    this.mouseY = e.clientY;
+                });
+            }
+            
+            init() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                
+                this.particles = [];
+                for (let i = 0; i < this.particleCount; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        radius: Math.random() * 2 + 1,
+                        opacity: Math.random() * 0.5 + 0.3
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Atualizar e desenhar partículas
+                this.particles.forEach((particle, i) => {
+                    // Atualizar posição
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Borda infinita
+                    if (particle.x < 0) particle.x = this.canvas.width;
+                    if (particle.x > this.canvas.width) particle.x = 0;
+                    if (particle.y < 0) particle.y = this.canvas.height;
+                    if (particle.y > this.canvas.height) particle.y = 0;
+                    
+                    // Interação com mouse
+                    const dx = this.mouseX - particle.x;
+                    const dy = this.mouseY - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        particle.vx -= (dx / distance) * force * 0.02;
+                        particle.vy -= (dy / distance) * force * 0.02;
+                    }
+                    
+                    // Limitar velocidade
+                    const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+                    if (speed > 2) {
+                        particle.vx = (particle.vx / speed) * 2;
+                        particle.vy = (particle.vy / speed) * 2;
+                    }
+                    
+                    // Desenhar partícula
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(59, 130, 246, ${particle.opacity})`;
+                    this.ctx.fill();
+                    
+                    // Conectar partículas próximas
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        const p2 = this.particles[j];
+                        const dx = particle.x - p2.x;
+                        const dy = particle.y - p2.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < this.connectionDistance) {
+                            const opacity = (1 - distance / this.connectionDistance) * 0.3;
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(particle.x, particle.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`;
+                            this.ctx.lineWidth = 1;
+                            this.ctx.stroke();
+                        }
+                    }
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // ===== DADOS PADRÃO DAS ESPÉCIES =====
+        const speciesData = {
+            galinha: {
+                name: 'Galinha',
+                icon: 'fas fa-egg',
+                incubationDays: 21,
+                temperature: 37.5
+            },
+            pato: {
+                name: 'Pato',
+                icon: 'fas fa-dove',
+                incubationDays: 28,
+                temperature: 37.5
+            },
+            ganso: {
+                name: 'Ganso',
+                icon: 'fas fa-feather',
+                incubationDays: 33,
+                temperature: 37.7
+            },
+            codorna: {
+                name: 'Codorna',
+                icon: 'fas fa-egg',
+                incubationDays: 17,
+                temperature: 37.5
+            },
+            peru: {
+                name: 'Peru',
+                icon: 'fas fa-turkey',
+                incubationDays: 28,
+                temperature: 37.5
+            },
+            faisão: {
+                name: 'Faisão',
+                icon: 'fas fa-crow',
+                incubationDays: 25,
+                temperature: 37.5
+            },
+            pavão: {
+                name: 'Pavão',
+                icon: 'fas fa-fan',
+                incubationDays: 29,
+                temperature: 37.2
+            },
+            cisne: {
+                name: 'Cisne',
+                icon: 'fas fa-dove',
+                incubationDays: 38,
+                temperature: 37.5
+            }
+        };
+
+        // ===== VARIÁVEIS GLOBAIS =====
+        let records = [];
+        let editingId = null;
+        let deferredPrompt = null;
+        let isAppInstalled = false;
+
+        // ===== ELEMENTOS DO DOM =====
+        const recordsGrid = document.getElementById('recordsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const recordModal = document.getElementById('recordModal');
+        const recordForm = document.getElementById('recordForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const addRecordBtn = document.getElementById('addRecordBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const installBtn = document.getElementById('installBtn');
+        const findAppBtn = document.getElementById('findAppBtn');
+        const findAppModal = document.getElementById('findAppModal');
+        const themeToggle = document.getElementById('themeToggle');
+        const toast = document.getElementById('toast');
+        const protectionWarning = document.getElementById('protectionWarning');
+        const speciesSelect = document.getElementById('species');
+        const incubationDaysInput = document.getElementById('incubationDays');
+        const temperatureInput = document.getElementById('temperature');
+
+        // ===== INICIALIZAÇÃO =====
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar sistema de partículas
+            new ParticleSystem();
+            
+            // Carregar tema salvo
+            loadTheme();
+            
+            // Carregar registros do localStorage
+            loadRecords();
+            
+            // Renderizar registros
+            renderRecords();
+            
+            // Configurar event listeners
+            setupEventListeners();
+            
+            // Registrar Service Worker
+            registerServiceWorker();
+            
+            // Verificar PWA install
+            checkPWAInstall();
+            
+            // Verificar se o app já está instalado
+            checkIfInstalled();
+            
+            // Configurar proteção contra cópia
+            setupCopyProtection();
+            
+            // Detectar plataforma do usuário
+            detectUserPlatform();
+            
+            // Verificar modo standalone (app instalado)
+            checkStandaloneMode();
+        });
+
+        // ===== EVENT LISTENERS =====
+        function setupEventListeners() {
+            // Botão adicionar registro
+            addRecordBtn.addEventListener('click', () => openModal());
+            
+            // Fechar modal
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            
+            // Fechar modal ao clicar fora
+            recordModal.addEventListener('click', (e) => {
+                if (e.target === recordModal) closeModal();
+            });
+            
+            // Submit do formulário
+            recordForm.addEventListener('submit', handleSubmit);
+            
+            // Botão instalar PWA
+            installBtn.addEventListener('click', installPWA);
+            
+            // Botão onde encontrar app
+            findAppBtn.addEventListener('click', showFindAppModal);
+            
+            // Botão tema
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Event listener para preenchimento automático
+            speciesSelect.addEventListener('change', handleSpeciesChange);
+        }
+
+        // ===== FUNÇÕES DE PLATAFORMA =====
+        
+        function detectUserPlatform() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let platform = 'unknown';
+            
+            if (userAgent.includes('android')) {
+                platform = 'android';
+            } else if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
+                platform = 'ios';
+            } else if (userAgent.includes('win')) {
+                platform = 'windows';
+            } else if (userAgent.includes('mac')) {
+                platform = 'macos';
+            } else if (userAgent.includes('linux')) {
+                platform = 'linux';
+            }
+            
+            // Salvar plataforma detectada
+            localStorage.setItem('userPlatform', platform);
+        }
+
+        function checkStandaloneMode() {
+            // Verificar se o app está rodando em modo standalone (instalado)
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                               window.navigator.standalone ||
+                               document.referrer.includes('android-app://');
+            
+            if (isStandalone) {
+                // O app está rodando como instalado
+                isAppInstalled = true;
+                localStorage.setItem('appInstalled', 'true');
+                installBtn.classList.add('installed');
+                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
+                findAppBtn.classList.add('show');
+                
+                // Mostrar mensagem de boas-vindas
+                setTimeout(() => {
+                    showToast('Bem-vindo ao app instalado!', 'success');
+                }, 1000);
+            }
+        }
+
+        function showFindAppModal() {
+            findAppModal.classList.add('show');
+            
+            // Destacar a plataforma do usuário
+            const userPlatform = localStorage.getItem('userPlatform') || 'unknown';
+            const platformItems = document.querySelectorAll('.platform-item');
+            
+            // Remover destaque de todos
+            platformItems.forEach(item => {
+                item.classList.remove('highlighted');
+            });
+            
+            // Destacar plataforma do usuário
+            let targetId = '';
+            switch(userPlatform) {
+                case 'android':
+                    targetId = 'android-instructions';
+                    break;
+                case 'ios':
+                    targetId = 'ios-instructions';
+                    break;
+                case 'windows':
+                    targetId = 'windows-instructions';
+                    break;
+                case 'macos':
+                    targetId = 'macos-instructions';
+                    break;
+                case 'linux':
+                    targetId = 'linux-instructions';
+                    break;
+            }
+            
+            if (targetId) {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.classList.add('highlighted');
+                    // Rolar até o elemento destacado
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            }
+        }
+
+        function closeFindAppModal() {
+            findAppModal.classList.remove('show');
+        }
+
+        function checkInstallationAgain() {
+            // Verificar novamente se está em modo standalone
+            checkStandaloneMode();
+            
+            if (isAppInstalled) {
+                showToast('App está instalado e funcionando!', 'success');
+            } else {
+                showToast('App não está instalado. Tente instalar novamente.', 'warning');
+            }
+            
+            closeFindAppModal();
+        }
+
+        function openInBrowser() {
+            // Abrir o site no navegador normal
+            window.open(window.location.href, '_blank');
+            closeFindAppModal();
+        }
+
+        // ===== FUNÇÕES DE TEMA =====
+        
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            if (newTheme === 'dark') {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            
+            showToast(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado!`, 'success');
+        }
+
+        // ===== FUNÇÕES DE PROTEÇÃO CONTRA CÓPIA =====
+        
+        function setupCopyProtection() {
+            // Desabilitar clique direito
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showProtectionWarning();
+                return false;
+            });
+            
+            // Desabilitar seleção de texto
+            document.addEventListener('selectstart', (e) => {
+                // Permitir seleção apenas em inputs e textareas
+                if (!e.target.matches('input, select, textarea')) {
+                    e.preventDefault();
+                    showProtectionWarning();
+                    return false;
+                }
+            });
+            
+            // Desabilitar atalhos de cópia
+            document.addEventListener('keydown', (e) => {
+                // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U, Ctrl+S, F12
+                if (
+                    (e.ctrlKey || e.metaKey) && 
+                    (e.key === 'c' || e.key === 'x' || e.key === 'a' || e.key === 'u' || e.key === 's') ||
+                    e.key === 'F12'
+                ) {
+                    e.preventDefault();
+                    showProtectionWarning();
+                    return false;
+                }
+            });
+            
+            // Desabilitar drag de imagens
+            document.addEventListener('dragstart', (e) => {
+                if (e.target.tagName === 'IMG') {
+                    e.preventDefault();
+                    showProtectionWarning();
+                    return false;
+                }
+            });
+        }
+
+        function showProtectionWarning() {
+            protectionWarning.classList.add('show');
+            setTimeout(() => {
+                protectionWarning.classList.remove('show');
+            }, 2000);
+        }
+
+        // ===== FUNÇÕES DE PREENCHIMENTO AUTOMÁTICO =====
+        
+        function handleSpeciesChange() {
+            const selectedSpecies = speciesSelect.value;
+            if (selectedSpecies && speciesData[selectedSpecies]) {
+                const data = speciesData[selectedSpecies];
+                incubationDaysInput.value = data.incubationDays;
+                temperatureInput.value = data.temperature;
+                
+                // Mostrar toast informativo
+                showToast(`Valores padrão para ${data.name} preenchidos!`, 'success');
+            }
+        }
+
+        // ===== FUNÇÕES DE CRUD =====
+        
+        // Carregar registros do localStorage
+        function loadRecords() {
+            const savedRecords = localStorage.getItem('incubadoraRecords');
+            if (savedRecords) {
+                records = JSON.parse(savedRecords);
+            } else {
+                // Inicializar com alguns dados de exemplo
+                records = [
+                    {
+                        id: Date.now(),
+                        species: 'galinha',
+                        eggCount: 12,
+                        incubationDays: 21,
+                        temperature: 37.5
+                    }
+                ];
+                saveRecords();
+            }
+        }
+
+        // Salvar registros no localStorage
+        function saveRecords() {
+            localStorage.setItem('incubadoraRecords', JSON.stringify(records));
+        }
+
+        // Adicionar novo registro
+        function addRecord(record) {
+            const newRecord = {
+                ...record,
+                id: Date.now(),
+                createdAt: new Date().toISOString()
+            };
+            records.unshift(newRecord);
+            saveRecords();
+            renderRecords();
+            showToast('Registro adicionado com sucesso!', 'success');
+        }
+
+        // Atualizar registro
+        function updateRecord(id, updatedRecord) {
+            const index = records.findIndex(r => r.id === id);
+            if (index !== -1) {
+                records[index] = { ...records[index], ...updatedRecord };
+                saveRecords();
+                renderRecords();
+                showToast('Registro atualizado com sucesso!', 'success');
+            }
+        }
+
+        // Excluir registro
+        function deleteRecord(id) {
+            if (confirm('Tem certeza que deseja excluir este registro?')) {
+                records = records.filter(r => r.id !== id);
+                saveRecords();
+                renderRecords();
+                showToast('Registro excluído com sucesso!', 'success');
+            }
+        }
+
+        // ===== FUNÇÕES DE RENDERIZAÇÃO =====
+        
+        // Renderizar todos os registros
+        function renderRecords() {
+            if (records.length === 0) {
+                recordsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            recordsGrid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            recordsGrid.innerHTML = records.map(record => createRecordCard(record)).join('');
+        }
+
+        // Criar HTML do card de registro
+        function createRecordCard(record) {
+            const speciesInfo = speciesData[record.species] || {
+                name: record.species,
+                icon: 'fas fa-egg'
+            };
+            
+            return `
+                <div class="record-card">
+                    <div class="record-header">
+                        <div class="record-species">
+                            <i class="${speciesInfo.icon}"></i>
+                            ${speciesInfo.name}
+                        </div>
+                        <div class="record-actions">
+                            <button class="icon-btn edit" onclick="editRecord(${record.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="icon-btn delete" onclick="confirmDelete(${record.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="record-info">
+                        <div class="info-item">
+                            <i class="fas fa-egg"></i>
+                            <span class="info-label">Ovos:</span>
+                            <span>${record.eggCount}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-days"></i>
+                            <span class="info-label">Incubação:</span>
+                            <span>${record.incubationDays} dias</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-temperature-high"></i>
+                            <span class="info-label">Temperatura:</span>
+                            <span>${record.temperature}°C</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== FUNÇÕES DO MODAL =====
+        
+        // Abrir modal
+        function openModal(record = null) {
+            if (record) {
+                editingId = record.id;
+                modalTitle.textContent = 'Editar Registro';
+                speciesSelect.value = record.species;
+                document.getElementById('eggCount').value = record.eggCount;
+                incubationDaysInput.value = record.incubationDays;
+                temperatureInput.value = record.temperature;
+            } else {
+                editingId = null;
+                modalTitle.textContent = 'Adicionar Registro';
+                recordForm.reset();
+            }
+            recordModal.classList.add('show');
+        }
+
+        // Fechar modal
+        function closeModal() {
+            recordModal.classList.remove('show');
+            recordForm.reset();
+            editingId = null;
+        }
+
+        // Editar registro
+        function editRecord(id) {
+            const record = records.find(r => r.id === id);
+            if (record) {
+                openModal(record);
+            }
+        }
+
+        // Confirmar exclusão
+        function confirmDelete(id) {
+            deleteRecord(id);
+        }
+
+        // Handle submit do formulário
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                species: document.getElementById('species').value,
+                eggCount: parseInt(document.getElementById('eggCount').value),
+                incubationDays: parseInt(document.getElementById('incubationDays').value),
+                temperature: parseFloat(document.getElementById('temperature').value)
+            };
+            
+            if (editingId) {
+                updateRecord(editingId, formData);
+            } else {
+                addRecord(formData);
+            }
+            
+            closeModal();
+        }
+
+        // ===== FUNÇÕES DE NOTIFICAÇÃO =====
+        
+        // Mostrar toast
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== FUNÇÕES PWA =====
+        
+        // Verificar se o app já está instalado
+        function checkIfInstalled() {
+            const isInstalled = localStorage.getItem('appInstalled');
+            if (isInstalled === 'true') {
+                isAppInstalled = true;
+                installBtn.classList.add('installed');
+                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
+                findAppBtn.classList.add('show');
+            }
+        }
+
+        // Registrar Service Worker
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                // Criar Service Worker inline
+                const swCode = `
+                    const CACHE_NAME = 'incubadora-v1';
+                    const urlsToCache = [
+                        '/',
+                        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCBmaWxsPSIjMWUzYThhIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIvPjxwYXRoIGZpbGw9IiM2MGE1ZmEiIGQ9Ik05NiA0MGMtMzAuOSAwLTU2IDI1LjEtNTYgNTZzMjUuMSA1NiA1NiA1NiA1Ni0yNS4xIDU2LTU2LTI1LjEtNTYtNTYtNTZ6bTAgOTZjLTIyLjEgMC00MC0xNy45LTQwLTQwczE3LjktNDAgNDAtNDAgNDAgMTcuOSA0MCA0MC0xNy45IDQwLTQwIDQweiIvPjxjaXJjbGUgZmlsbD0iIzYwYTVmYSIgY3g9Ijk2IiBjeT0iOTYiIHI9IjIwIi8+PC9zdmc+'
+                    ];
+
+                    self.addEventListener('install', event => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then(cache => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then(response => {
+                                    return response || fetch(event.request);
+                                })
+                        );
+                    });
+
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(
+                            caches.keys().then(cacheNames => {
+                                return Promise.all(
+                                    cacheNames.map(cacheName => {
+                                        if (cacheName !== CACHE_NAME) {
+                                            return caches.delete(cacheName);
+                                        }
+                                    })
+                                );
+                            })
+                        );
+                    });
+                `;
+
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl).catch(err => {
+                    console.log('Service Worker registration failed:', err);
+                });
+            }
+        }
+
+        // Verificar instalação PWA
+        function checkPWAInstall() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                // Sempre mostrar o botão até instalar
+                installBtn.style.display = 'inline-flex';
+            });
+
+            window.addEventListener('appinstalled', () => {
+                isAppInstalled = true;
+                localStorage.setItem('appInstalled', 'true');
+                installBtn.classList.add('installed');
+                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
+                findAppBtn.classList.add('show');
+                
+                // Mostrar botão "Onde?" após instalação
+                setTimeout(() => {
+                    showToast('App instalado com sucesso! Clique em "Onde?" para saber onde encontrá-lo', 'success');
+                }, 2000);
+            });
+        }
+
+        // Instalar PWA
+        function installPWA() {
+            if (isAppInstalled) {
+                showToast('O app já está instalado!', 'warning');
+                return;
+            }
+            
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('Instalação iniciada!', 'success');
+                    } else {
+                        showToast('Instalação cancelada', 'warning');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                showToast('Clique no menu do navegador para instalar', 'warning');
+            }
+        }
+    </script>
+</body>
+</html>
