@@ -27,7 +27,6 @@
             /* Tema Azul Mar (Claro) */
             --primary-color: #1e3a8a;
             --primary-light: #1e40af;
-            --primary-dark: #1e293b;
             --secondary-color: #3b82f6;
             --accent-color: #60a5fa;
             --success-color: #10b981;
@@ -38,10 +37,9 @@
             --text-color: #1e293b;
             --text-secondary: #64748b;
             --bg-color: #f0f9ff;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
             --border-color: rgba(59, 130, 246, 0.2);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --glow: 0 0 20px rgba(59, 130, 246, 0.5);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             --border-radius: 12px;
             --transition: all 0.3s ease;
         }
@@ -50,7 +48,6 @@
         [data-theme="dark"] {
             --primary-color: #0f172a;
             --primary-light: #1e293b;
-            --primary-dark: #020617;
             --secondary-color: #3b82f6;
             --accent-color: #60a5fa;
             --success-color: #10b981;
@@ -61,10 +58,9 @@
             --text-color: #f8fafc;
             --text-secondary: #94a3b8;
             --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.9);
+            --card-bg: #1e293b;
             --border-color: rgba(99, 102, 241, 0.3);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --glow: 0 0 20px rgba(99, 102, 241, 0.5);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -74,61 +70,29 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            /* Proteção contra cópia */
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Proteção contra cópia - permitir seleção apenas em inputs */
-        input, select, textarea {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
-        }
-
-        /* ===== CANVAS DE PARTÍCULAS ===== */
-        #particles-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
-        /* ===== LAYOUT PRINCIPAL ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            position: relative;
-            z-index: 1;
         }
 
+        /* ===== HEADER ===== */
         header {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            backdrop-filter: blur(10px);
             color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid var(--border-color);
         }
 
         .header-content {
@@ -142,193 +106,343 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.75rem;
+            gap: 10px;
+            font-size: 1.5rem;
             font-weight: bold;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .logo i {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8));
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            font-size: 2rem;
+            color: var(--accent-color);
         }
 
         .header-actions {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             align-items: center;
         }
 
         .theme-toggle {
             background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: none;
             color: white;
-            padding: 0.5rem;
+            padding: 8px;
             border-radius: 50%;
             cursor: pointer;
             transition: var(--transition);
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
         }
 
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
         }
 
         .install-btn {
             background: linear-gradient(135deg, var(--success-color), #059669);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            animation: installPulse 2s infinite;
-        }
-
-        @keyframes installPulse {
-            0%, 100% { 
-                transform: translateY(0);
-                box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            }
-            50% { 
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-            }
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
         }
 
         .install-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }
 
         .install-btn.installed {
             background: linear-gradient(135deg, var(--text-secondary), #475569);
-            animation: none;
             cursor: default;
         }
 
-        .find-app-btn {
-            background: linear-gradient(135deg, var(--warning-color), #d97706);
+        /* ===== PAINEL DE MONITORAMENTO ===== */
+        .dashboard {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .dashboard-header h2 {
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .refresh-btn {
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: var(--border-radius);
+            padding: 8px 15px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            display: none;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            gap: 8px;
+            transition: var(--transition);
         }
 
-        .find-app-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        .refresh-btn:hover {
+            background: var(--primary-light);
         }
 
-        .find-app-btn.show {
-            display: inline-flex;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
 
-        /* ===== SEÇÃO PRINCIPAL ===== */
-        main {
-            padding: 3rem 0;
-            min-height: calc(100vh - 200px);
-        }
-
-        .hero {
+        .dashboard-card {
+            background: var(--bg-color);
+            border-radius: 8px;
+            padding: 1rem;
             text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: var(--glow);
-            animation: glow 2s ease-in-out infinite alternate;
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5)); }
-            to { filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.8)); }
+        .dashboard-card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
         }
 
-        .hero p {
-            font-size: 1.25rem;
+        .dashboard-card h3 {
+            font-size: 1rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .dashboard-card .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-indicator.good {
+            background-color: var(--success-color);
+        }
+
+        .status-indicator.warning {
+            background-color: var(--warning-color);
+        }
+
+        .status-indicator.danger {
+            background-color: var(--danger-color);
         }
 
         /* ===== BOTÃO ADICIONAR ===== */
         .add-btn-container {
             text-align: center;
-            margin-bottom: 3rem;
+            margin: 2rem 0;
         }
 
         .add-btn {
             background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
             color: white;
             border: none;
-            padding: 1.25rem 2.5rem;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .add-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .add-btn:hover::before {
-            left: 100%;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
         }
 
         .add-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* ===== CARDS DE REGISTROS ===== */
+        .records-container {
+            margin: 2rem 0;
+        }
+
+        .records-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .record-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .record-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .record-species {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-species i {
+            color: var(--secondary-color);
+        }
+
+        .record-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .icon-btn.edit:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .icon-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .record-info {
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .info-item i {
+            width: 20px;
+            color: var(--secondary-color);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .hatch-date {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border-left: 3px solid var(--success-color);
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hatch-date i {
+            color: var(--success-color);
+            font-size: 1.2rem;
+        }
+
+        .hatch-date-text {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .hatch-date-value {
+            margin-left: auto;
+            background: var(--success-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            margin-top: 1rem;
+            height: 8px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 4px;
         }
 
         /* ===== MODAL ===== */
@@ -339,1665 +453,825 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.show {
-            display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        .modal.show {
+            display: flex;
+        }
+
         .modal-content {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 2.5rem;
             border-radius: var(--border-radius);
-            max-width: 600px;
+            padding: 2rem;
             width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: slideIn 0.3s ease;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .modal-header h2 {
             color: var(--text-color);
-            font-size: 1.75rem;
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-secondary);
-            transition: var(--transition);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .close-btn:hover {
             color: var(--danger-color);
-            background-color: rgba(239, 68, 68, 0.1);
         }
 
-        /* ===== FORMULÁRIO ===== */
         .form-group {
-            margin-bottom: 1.75rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.75rem;
+            margin-bottom: 5px;
             font-weight: 600;
             color: var(--text-color);
-            font-size: 1.1rem;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-size: 1rem;
-            transition: var(--transition);
-            background-color: var(--card-bg);
+            background: var(--bg-color);
             color: var(--text-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        .form-group input::placeholder,
-        .form-group select::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .form-group small {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: block;
         }
 
         .form-actions {
             display: flex;
-            gap: 1rem;
             justify-content: flex-end;
-            margin-top: 2.5rem;
+            gap: 10px;
+            margin-top: 1.5rem;
         }
 
         .btn {
-            padding: 0.875rem 1.75rem;
+            padding: 10px 20px;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 6px;
             font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
-            font-weight: 600;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            background: var(--secondary-color);
             color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            background: var(--accent-color);
         }
 
         .btn-secondary {
-            background-color: var(--text-secondary);
+            background: var(--text-secondary);
             color: white;
         }
 
         .btn-secondary:hover {
-            background-color: var(--text-color);
+            background: var(--dark-color);
         }
 
-        /* ===== CARDS DE REGISTROS ===== */
-        .records-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .record-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .record-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--secondary-color), var(--accent-color));
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
-        }
-
-        .record-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.3);
-            border-color: rgba(59, 130, 246, 0.5);
-        }
-
-        .record-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1.5rem;
-        }
-
-        .record-species {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .record-species i {
-            font-size: 2rem;
-            color: var(--secondary-color);
-            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.6));
-        }
-
-        .record-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .icon-btn {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            padding: 0.75rem;
-            border-radius: 50%;
-            transition: var(--transition);
-            color: var(--text-secondary);
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .icon-btn:hover {
-            background-color: rgba(59, 130, 246, 0.2);
-            transform: scale(1.1);
-        }
-
-        .icon-btn.edit:hover {
-            color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        .icon-btn.delete:hover {
-            color: var(--danger-color);
-            border-color: var(--danger-color);
-            background-color: rgba(239, 68, 68, 0.1);
-        }
-
-        .record-info {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--text-color);
-            font-size: 1.1rem;
-        }
-
-        .info-item i {
-            width: 24px;
-            color: var(--secondary-color);
-            font-size: 1.25rem;
-        }
-
-        .info-label {
-            font-weight: 600;
-            margin-right: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        /* ===== ESTADOS VAZIO ===== */
+        /* ===== ESTADO VAZIO ===== */
         .empty-state {
             text-align: center;
-            padding: 6rem 2rem;
+            padding: 3rem 1rem;
             color: var(--text-secondary);
         }
 
         .empty-state i {
-            font-size: 5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary);
+            font-size: 3rem;
+            margin-bottom: 1rem;
             opacity: 0.5;
         }
 
-        .empty-state h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text-color);
-        }
-
-        /* ===== TOAST NOTIFICAÇÃO ===== */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            color: var(--text-color);
-            padding: 1.25rem 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transform: translateX(500px);
-            transition: transform 0.3s ease;
-            z-index: 2000;
-            max-width: 350px;
-            border: 1px solid var(--border-color);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.success {
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
-        }
-
-        .toast.error {
-            border-color: rgba(239, 68, 68, 0.5);
-            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.3);
-        }
-
-        .toast.warning {
-            border-color: rgba(245, 158, 11, 0.5);
-            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.3);
-        }
-
-        /* ===== RODAPÉ ===== */
-        footer {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-            backdrop-filter: blur(10px);
-            padding: 3rem 0 2rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border-color);
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer-content {
-            text-align: center;
-            color: var(--light-color);
-        }
-
-        .footer-credits {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .footer-credits span {
-            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .footer-copyright {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* ===== AVISO DE PROTEÇÃO ===== */
-        .protection-warning {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, var(--danger-color), #dc2626);
-            color: white;
-            padding: 1.5rem 2.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            display: none;
-            text-align: center;
-            max-width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .protection-warning.show {
-            display: block;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        .protection-warning i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        /* ===== MODAL ONDE ENCONTRAR APP ===== */
-        .find-app-modal .modal-content {
-            max-width: 700px;
-        }
-
-        .app-status {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .status-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--success-color);
-        }
-
-        .status-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .status-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .troubleshooting {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .troubleshooting h3 {
-            color: var(--warning-color);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .troubleshooting ul {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-left: 1.5rem;
-        }
-
-        .troubleshooting li {
-            margin-bottom: 0.5rem;
-        }
-
-        .platform-instructions {
-            margin-top: 2rem;
-        }
-
-        .platform-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            transition: var(--transition);
-        }
-
-        .platform-item:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .platform-item.highlighted {
-            border: 2px solid var(--secondary-color);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .platform-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .platform-icon {
-            font-size: 2rem;
-            color: var(--secondary-color);
-        }
-
-        .platform-name {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: var(--text-color);
-        }
-
-        .platform-steps {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        .platform-steps ol {
-            margin-left: 1.5rem;
-        }
-
-        .platform-steps li {
-            margin-bottom: 0.5rem;
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            justify-content: center;
-        }
-
-        .quick-action-btn {
-            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quick-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .quick-action-btn.secondary {
-            background: linear-gradient(135deg, var(--text-secondary), #475569);
-        }
-
-        /* ===== ANIMAÇÕES ===== */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translate(-50%, -50%) translateX(0); }
-            25% { transform: translate(-50%, -50%) translateX(-15px); }
-            75% { transform: translate(-50%, -50%) translateX(15px); }
-        }
-
-        /* ===== RESPONSIVIDADE ===== */
+        /* ===== RESPONSIVO ===== */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-
+            
             .records-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .modal-content {
-                padding: 2rem;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .toast {
-                left: 20px;
-                right: 20px;
-                max-width: none;
-                bottom: 20px;
-            }
-
-            .header-content {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-            }
-
-            .logo i {
-                font-size: 2rem;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .find-app-btn {
-                font-size: 0.7rem;
-                padding: 0.4rem 0.8rem;
-            }
-
-            .quick-actions {
-                flex-direction: column;
-            }
-
-            .quick-action-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .add-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 1rem 2rem;
-            }
-
-            .record-card {
-                padding: 1.5rem;
-            }
-
-            .record-species {
-                font-size: 1.25rem;
-            }
-
-            .record-species i {
-                font-size: 1.5rem;
-            }
-
-            .footer-credits {
-                font-size: 1rem;
-            }
-
-            .install-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .platform-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .modal-content {
-                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- CANVAS DE PARTÍCULAS -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- AVISO DE PROTEÇÃO CONTRA CÓPIA -->
-    <div class="protection-warning" id="protectionWarning">
-        <i class="fas fa-shield-alt"></i>
-        <p><strong>Proteção Ativa!</strong></p>
-        <p>Cópia de código não permitida!</p>
-    </div>
-
-    <!-- CABEÇALHO -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i class="fas fa-dna"></i>
+                    <i class="fas fa-egg"></i>
                     <span>Incubadora Digital</span>
                 </div>
                 <div class="header-actions">
-                    <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+                    <button class="theme-toggle" id="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <button class="install-btn" id="installBtn">
-                        <i class="fas fa-download"></i> Instalar App
-                    </button>
-                    <button class="find-app-btn" id="findAppBtn" title="Onde encontrar o app?">
-                        <i class="fas fa-question-circle"></i> Onde?
+                    <button class="install-btn" id="install-btn" style="display: none;">
+                        <i class="fas fa-download"></i>
+                        <span>Instalar App</span>
                     </button>
                 </div>
             </div>
         </div>
     </header>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main>
-        <div class="container">
-            <!-- SEÇÃO HERO -->
-            <section class="hero">
-                <h1>Gestão de Incubação de Aves</h1>
-                <p>Sistema avançado para controle preciso do processo de incubação de ovos de diversas espécies</p>
-            </section>
-
-            <!-- BOTÃO ADICIONAR -->
-            <div class="add-btn-container">
-                <button class="add-btn" id="addRecordBtn">
-                    <i class="fas fa-plus-circle"></i>
-                    Adicionar Novo Registro
+    
+    <div class="container">
+        <!-- Painel de Monitoramento -->
+        <div class="dashboard">
+            <div class="dashboard-header">
+                <h2>Painel de Monitoramento</h2>
+                <button class="refresh-btn" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Atualizar</span>
                 </button>
             </div>
-
-            <!-- GRID DE REGISTROS -->
-            <section id="recordsContainer">
-                <div class="records-grid" id="recordsGrid">
-                    <!-- Os cards serão inseridos aqui dinamicamente -->
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <i class="fas fa-thermometer-half"></i>
+                    <h3>Temperatura</h3>
+                    <div class="value" id="temperature-value">--°C</div>
+                    <div class="status">
+                        <span class="status-indicator" id="temp-status"></span>
+                        <span id="temp-status-text">--</span>
+                    </div>
                 </div>
-            </section>
-
-            <!-- ESTADO VAZIO -->
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <i class="fas fa-egg-slash"></i>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-tint"></i>
+                    <h3>Umidade</h3>
+                    <div class="value" id="humidity-value">--%</div>
+                    <div class="status">
+                        <span class="status-indicator" id="humidity-status"></span>
+                        <span id="humidity-status-text">--</span>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-egg"></i>
+                    <h3>Ovos em Incubação</h3>
+                    <div class="value" id="eggs-count">0</div>
+                    <div class="status">
+                        <span class="status-indicator good"></span>
+                        <span id="eggs-status-text">Nenhum</span>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <i class="fas fa-calendar-day"></i>
+                    <h3>Próxima Eclosão</h3>
+                    <div class="value" id="next-hatch">--</div>
+                    <div class="status">
+                        <span class="status-indicator" id="hatch-status"></span>
+                        <span id="hatch-species">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-btn-container">
+            <button class="add-btn" id="add-record-btn">
+                <i class="fas fa-plus-circle"></i>
+                <span>Adicionar Novo Registro</span>
+            </button>
+        </div>
+        
+        <div class="records-container">
+            <div class="records-grid" id="records-grid">
+                <!-- Cards serão gerados dinamicamente -->
+            </div>
+            
+            <div class="empty-state" id="empty-state">
+                <i class="fas fa-egg"></i>
                 <h3>Nenhum registro encontrado</h3>
-                <p>Comece adicionando um novo registro de incubação</p>
+                <p>Adicione seu primeiro registro para começar a monitorar a incubação.</p>
             </div>
         </div>
-    </main>
-
-    <!-- RODAPÉ -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-credits">
-                    Criado por <span>Elias Costa Negret's</span>
-                </div>
-                <div class="footer-copyright">
-                    © 2024 Incubadora Digital. Todos os direitos reservados.
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL FORMULÁRIO -->
-    <div class="modal" id="recordModal">
+    </div>
+    
+    <!-- Modal para Adicionar/Editar Registro -->
+    <div class="modal" id="record-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Adicionar Registro</h2>
-                <button class="close-btn" id="closeModalBtn">
+                <h2 id="modal-title">Adicionar Registro</h2>
+                <button class="close-btn" id="close-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <form id="recordForm">
+            
+            <form id="record-form">
                 <div class="form-group">
-                    <label for="species">Espécie *</label>
+                    <label for="species">Espécie da Ave</label>
                     <select id="species" required>
                         <option value="">Selecione uma espécie</option>
                         <option value="galinha">Galinha</option>
                         <option value="pato">Pato</option>
                         <option value="ganso">Ganso</option>
-                        <option value="codorna">Codorna</option>
                         <option value="peru">Peru</option>
-                        <option value="faisão">Faisão</option>
-                        <option value="pavão">Pavão</option>
+                        <option value="codorna">Codorna</option>
+                        <option value="faisao">Faisão</option>
+                        <option value="pavao">Pavão</option>
+                        <option value="ema">Ema</option>
+                        <option value="avestruz">Avestruz</option>
+                        <option value="marreco">Marreco</option>
                         <option value="cisne">Cisne</option>
+                        <option value="perdiz">Perdiz</option>
+                        <option value="jacu">Jacu</option>
+                        <option value="mutum">Mutum</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="eggCount">Quantidade de Ovos *</label>
-                    <input type="number" id="eggCount" min="1" required placeholder="Ex: 12">
+                    <label for="start-date">Data de Início</label>
+                    <input type="date" id="start-date" required>
                 </div>
+                
                 <div class="form-group">
-                    <label for="incubationDays">Tempo de Incubação (dias) *</label>
-                    <input type="number" id="incubationDays" min="1" required placeholder="Ex: 21">
-                    <small>Valor padrão será preenchido automaticamente</small>
+                    <label for="egg-count">Quantidade de Ovos</label>
+                    <input type="number" id="egg-count" min="1" required placeholder="Ex: 12">
                 </div>
+                
                 <div class="form-group">
-                    <label for="temperature">Temperatura (°C) *</label>
+                    <label for="temperature">Temperatura (°C)</label>
                     <input type="number" id="temperature" step="0.1" min="30" max="40" required placeholder="Ex: 37.5">
-                    <small>Valor padrão será preenchido automaticamente</small>
                 </div>
+                
+                <div class="form-group">
+                    <label for="humidity">Umidade (%)</label>
+                    <input type="number" id="humidity" min="40" max="70" required placeholder="Ex: 60">
+                </div>
+                
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelBtn">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
-
-    <!-- MODAL ONDE ENCONTRAR APP -->
-    <div class="modal find-app-modal" id="findAppModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Onde Encontrar o App Instalado</h2>
-                <button class="close-btn" onclick="closeFindAppModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="app-status">
-                <i class="fas fa-check-circle status-icon"></i>
-                <div class="status-title">App Instalado com Sucesso!</div>
-                <div class="status-description">
-                    O app foi instalado no seu dispositivo. Se você não o encontrou, siga as instruções abaixo para sua plataforma.
-                </div>
-            </div>
-
-            <div class="troubleshooting">
-                <h3><i class="fas fa-tools"></i> Não encontrou o app?</h3>
-                <ul>
-                    <li>Verifique se você concluiu todos os passos de instalação</li>
-                    <li>Reinicie seu dispositivo e tente novamente</li>
-                    <li>Alguns navegadores podem não suportar instalação PWA</li>
-                    <li>Verifique as permissões do navegador</li>
-                </ul>
-            </div>
-
-            <div class="platform-instructions">
-                <div class="platform-item" id="android-instructions">
-                    <div class="platform-header">
-                        <i class="fab fa-android platform-icon"></i>
-                        <div class="platform-name">Android (Chrome)</div>
-                    </div>
-                    <div class="platform-steps">
-                        <ol>
-                            <li><strong>Volte para a tela inicial</strong> do seu celular</li>
-                            <li><strong>Deslize para cima</strong> para abrir a gaveta de aplicativos</li>
-                            <li><strong>Procure pelo ícone</strong> do "Incubadora Digital"</li>
-                            <li><strong>Pressione e segure</strong> o ícone para mover para a tela inicial</li>
-                            <li><strong>Dica:</strong> O app pode estar no final da lista</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="platform-item" id="ios-instructions">
-                    <div class="platform-header">
-                        <i class="fab fa-apple platform-icon"></i>
-                        <div class="platform-name">iOS (Safari)</div>
-                    </div>
-                    <div class="platform-steps">
-                        <ol>
-                            <li>O app foi instalado <strong>diretamente na tela inicial</strong></li>
-                            <li><strong>Procure em todas as páginas</strong> da tela inicial</li>
-                            <li><strong>Verifique pastas</strong> onde o app possa ter sido colocado</li>
-                            <li><strong>Use a busca</strong> deslizando para baixo na tela inicial</li>
-                            <li><strong>Dica:</strong> Em iOS, o app aparece como um ícone normal</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="platform-item" id="windows-instructions">
-                    <div class="platform-header">
-                        <i class="fab fa-windows platform-icon"></i>
-                        <div class="platform-name">Windows (Chrome/Edge)</div>
-                    </div>
-                    <div class="platform-steps">
-                        <ol>
-                            <li><strong>Abra o Menu Iniciar</strong> do Windows</li>
-                            <li><strong>Digite "Incubadora"</strong> na barra de busca</li>
-                            <li><strong>Clique com o botão direito</strong> para fixar na barra de tarefas</li>
-                            <li><strong>Verifique a lista</strong> de todos os aplicativos</li>
-                            <li><strong>Dica:</strong> Pode estar como "Incubadora Digital" ou apenas "Incubadora"</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="platform-item" id="macos-instructions">
-                    <div class="platform-header">
-                        <i class="fab fa-apple platform-icon"></i>
-                        <div class="platform-name">macOS (Chrome/Safari)</div>
-                    </div>
-                    <div class="platform-steps">
-                        <ol>
-                            <li><strong>Abra o Launchpad</strong> (ícone de foguete no dock)</li>
-                            <li><strong>Verifique a pasta Aplicativos</strong> no Finder</li>
-                            <li><strong>Procure no dock</strong> na parte inferior da tela</li>
-                            <li><strong>Use o Spotlight</strong> pressionando ⌘ + Space e digite "Incubadora"</li>
-                            <li><strong>Dica:</strong> Arraste o ícone para o dock para acesso rápido</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="platform-item" id="linux-instructions">
-                    <div class="platform-header">
-                        <i class="fab fa-linux platform-icon"></i>
-                        <div class="platform-name">Linux (Chrome/Firefox)</div>
-                    </div>
-                    <div class="platform-steps">
-                        <ol>
-                            <li><strong>Verifique o menu de aplicativos</strong> da sua distribuição</li>
-                            <li><strong>Procure na área de trabalho</strong> por um atalho</li>
-                            <li><strong>Verifique o dock ou painel</strong> lateral de aplicativos</li>
-                            <li><strong>Use a busca do sistema</strong> e digite "Incubadora"</li>
-                            <li><strong>Dica:</strong> Em algumas distros, cria um atalho na área de trabalho</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-
-            <div class="quick-actions">
-                <button class="quick-action-btn" onclick="checkInstallationAgain()">
-                    <i class="fas fa-sync-alt"></i> Verificar Instalação
-                </button>
-                <button class="quick-action-btn secondary" onclick="openInBrowser()">
-                    <i class="fas fa-globe"></i> Abrir no Navegador
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TOAST NOTIFICAÇÃO -->
-    <div class="toast" id="toast"></div>
-
+    
     <script>
-        // ===== SISTEMA DE PARTÍCULAS =====
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particles-canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.particleCount = 100;
-                this.connectionDistance = 150;
-                this.mouseX = 0;
-                this.mouseY = 0;
-                
-                this.init();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.init());
-                window.addEventListener('mousemove', (e) => {
-                    this.mouseX = e.clientX;
-                    this.mouseY = e.clientY;
-                });
-            }
-            
-            init() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-                
-                this.particles = [];
-                for (let i = 0; i < this.particleCount; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        vx: (Math.random() - 0.5) * 0.5,
-                        vy: (Math.random() - 0.5) * 0.5,
-                        radius: Math.random() * 2 + 1,
-                        opacity: Math.random() * 0.5 + 0.3
-                    });
-                }
-            }
-            
-            animate() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                // Atualizar e desenhar partículas
-                this.particles.forEach((particle, i) => {
-                    // Atualizar posição
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                    
-                    // Borda infinita
-                    if (particle.x < 0) particle.x = this.canvas.width;
-                    if (particle.x > this.canvas.width) particle.x = 0;
-                    if (particle.y < 0) particle.y = this.canvas.height;
-                    if (particle.y > this.canvas.height) particle.y = 0;
-                    
-                    // Interação com mouse
-                    const dx = this.mouseX - particle.x;
-                    const dy = this.mouseY - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        const force = (100 - distance) / 100;
-                        particle.vx -= (dx / distance) * force * 0.02;
-                        particle.vy -= (dy / distance) * force * 0.02;
-                    }
-                    
-                    // Limitar velocidade
-                    const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
-                    if (speed > 2) {
-                        particle.vx = (particle.vx / speed) * 2;
-                        particle.vy = (particle.vy / speed) * 2;
-                    }
-                    
-                    // Desenhar partícula
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `rgba(59, 130, 246, ${particle.opacity})`;
-                    this.ctx.fill();
-                    
-                    // Conectar partículas próximas
-                    for (let j = i + 1; j < this.particles.length; j++) {
-                        const p2 = this.particles[j];
-                        const dx = particle.x - p2.x;
-                        const dy = particle.y - p2.y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < this.connectionDistance) {
-                            const opacity = (1 - distance / this.connectionDistance) * 0.3;
-                            this.ctx.beginPath();
-                            this.ctx.moveTo(particle.x, particle.y);
-                            this.ctx.lineTo(p2.x, p2.y);
-                            this.ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`;
-                            this.ctx.lineWidth = 1;
-                            this.ctx.stroke();
-                        }
-                    }
-                });
-                
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        // ===== DADOS PADRÃO DAS ESPÉCIES =====
-        const speciesData = {
-            galinha: {
-                name: 'Galinha',
-                icon: 'fas fa-egg',
-                incubationDays: 21,
-                temperature: 37.5
-            },
-            pato: {
-                name: 'Pato',
-                icon: 'fas fa-dove',
-                incubationDays: 28,
-                temperature: 37.5
-            },
-            ganso: {
-                name: 'Ganso',
-                icon: 'fas fa-feather',
-                incubationDays: 33,
-                temperature: 37.7
-            },
-            codorna: {
-                name: 'Codorna',
-                icon: 'fas fa-egg',
-                incubationDays: 17,
-                temperature: 37.5
-            },
-            peru: {
-                name: 'Peru',
-                icon: 'fas fa-turkey',
-                incubationDays: 28,
-                temperature: 37.5
-            },
-            faisão: {
-                name: 'Faisão',
-                icon: 'fas fa-crow',
-                incubationDays: 25,
-                temperature: 37.5
-            },
-            pavão: {
-                name: 'Pavão',
-                icon: 'fas fa-fan',
-                incubationDays: 29,
-                temperature: 37.2
-            },
-            cisne: {
-                name: 'Cisne',
-                icon: 'fas fa-dove',
-                incubationDays: 38,
-                temperature: 37.5
-            }
-        };
-
         // ===== VARIÁVEIS GLOBAIS =====
         let records = [];
-        let editingId = null;
-        let deferredPrompt = null;
-        let isAppInstalled = false;
-
-        // ===== ELEMENTOS DO DOM =====
-        const recordsGrid = document.getElementById('recordsGrid');
-        const emptyState = document.getElementById('emptyState');
-        const recordModal = document.getElementById('recordModal');
-        const recordForm = document.getElementById('recordForm');
-        const modalTitle = document.getElementById('modalTitle');
-        const addRecordBtn = document.getElementById('addRecordBtn');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const installBtn = document.getElementById('installBtn');
-        const findAppBtn = document.getElementById('findAppBtn');
-        const findAppModal = document.getElementById('findAppModal');
-        const themeToggle = document.getElementById('themeToggle');
-        const toast = document.getElementById('toast');
-        const protectionWarning = document.getElementById('protectionWarning');
-        const speciesSelect = document.getElementById('species');
-        const incubationDaysInput = document.getElementById('incubationDays');
-        const temperatureInput = document.getElementById('temperature');
-
+        let editingRecordId = null;
+        let sensorData = {
+            temperature: 37.5,
+            humidity: 60
+        };
+        
         // ===== INICIALIZAÇÃO =====
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar sistema de partículas
-            new ParticleSystem();
-            
-            // Carregar tema salvo
-            loadTheme();
-            
             // Carregar registros do localStorage
             loadRecords();
             
-            // Renderizar registros
-            renderRecords();
-            
-            // Configurar event listeners
+            // Configurar eventos
             setupEventListeners();
             
-            // Registrar Service Worker
-            registerServiceWorker();
+            // Iniciar sensores simulados
+            startSensors();
             
-            // Verificar PWA install
-            checkPWAInstall();
-            
-            // Verificar se o app já está instalado
-            checkIfInstalled();
-            
-            // Configurar proteção contra cópia
-            setupCopyProtection();
-            
-            // Detectar plataforma do usuário
-            detectUserPlatform();
-            
-            // Verificar modo standalone (app instalado)
-            checkStandaloneMode();
+            // Verificar PWA
+            checkPWA();
         });
-
+        
+        // ===== PWA =====
+        function checkPWA() {
+            // Verificar se o navegador suporta PWA
+            if ('serviceWorker' in navigator) {
+                // Registrar service worker
+                navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                    self.addEventListener('install', event => {
+                        self.skipWaiting();
+                    });
+                    
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(self.clients.claim());
+                    });
+                    
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            fetch(event.request).catch(() => {
+                                return new Response('Offline');
+                            })
+                        );
+                    });
+                `));
+            }
+            
+            // Verificar botão de instalação
+            const installBtn = document.getElementById('install-btn');
+            
+            // Evento beforeinstallprompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                installBtn.style.display = 'flex';
+                
+                installBtn.addEventListener('click', () => {
+                    e.prompt();
+                    e.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            installBtn.innerHTML = '<i class="fas fa-check"></i><span>Instalado</span>';
+                            installBtn.classList.add('installed');
+                        }
+                        installBtn.style.display = 'none';
+                    });
+                });
+            });
+            
+            // Verificar se já está instalado
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                installBtn.innerHTML = '<i class="fas fa-check"></i><span>Instalado</span>';
+                installBtn.classList.add('installed');
+            }
+        }
+        
+        // ===== SENSORES SIMULADOS =====
+        function startSensors() {
+            // Atualizar sensores a cada 5 segundos
+            setInterval(updateSensorData, 5000);
+            
+            // Atualizar interface imediatamente
+            updateSensorData();
+        }
+        
+        function updateSensorData() {
+            // Simular variação de temperatura (±0.2°C)
+            const tempVariation = (Math.random() - 0.5) * 0.4;
+            sensorData.temperature = Math.max(36.0, Math.min(39.0, sensorData.temperature + tempVariation));
+            
+            // Simular variação de umidade (±2%)
+            const humidityVariation = (Math.random() - 0.5) * 4;
+            sensorData.humidity = Math.max(50, Math.min(70, sensorData.humidity + humidityVariation));
+            
+            // Arredondar valores
+            sensorData.temperature = Math.round(sensorData.temperature * 10) / 10;
+            sensorData.humidity = Math.round(sensorData.humidity);
+            
+            // Atualizar interface
+            updateSensorDisplay();
+        }
+        
+        function updateSensorDisplay() {
+            // Atualizar temperatura
+            document.getElementById('temperature-value').textContent = `${sensorData.temperature}°C`;
+            
+            // Atualizar umidade
+            document.getElementById('humidity-value').textContent = `${sensorData.humidity}%`;
+            
+            // Verificar status da temperatura
+            const tempStatus = document.getElementById('temp-status');
+            const tempStatusText = document.getElementById('temp-status-text');
+            
+            if (sensorData.temperature >= 37.0 && sensorData.temperature <= 38.0) {
+                tempStatus.className = 'status-indicator good';
+                tempStatusText.textContent = 'Ideal';
+            } else if (sensorData.temperature >= 36.5 && sensorData.temperature <= 38.5) {
+                tempStatus.className = 'status-indicator warning';
+                tempStatusText.textContent = 'Aceitável';
+            } else {
+                tempStatus.className = 'status-indicator danger';
+                tempStatusText.textContent = 'Crítico';
+            }
+            
+            // Verificar status da umidade
+            const humidityStatus = document.getElementById('humidity-status');
+            const humidityStatusText = document.getElementById('humidity-status-text');
+            
+            if (sensorData.humidity >= 55 && sensorData.humidity <= 65) {
+                humidityStatus.className = 'status-indicator good';
+                humidityStatusText.textContent = 'Ideal';
+            } else if (sensorData.humidity >= 50 && sensorData.humidity <= 70) {
+                humidityStatus.className = 'status-indicator warning';
+                humidityStatusText.textContent = 'Aceitável';
+            } else {
+                humidityStatus.className = 'status-indicator danger';
+                humidityStatusText.textContent = 'Crítico';
+            }
+        }
+        
         // ===== EVENT LISTENERS =====
         function setupEventListeners() {
-            // Botão adicionar registro
-            addRecordBtn.addEventListener('click', () => openModal());
-            
-            // Fechar modal
-            closeModalBtn.addEventListener('click', closeModal);
-            cancelBtn.addEventListener('click', closeModal);
-            
-            // Fechar modal ao clicar fora
-            recordModal.addEventListener('click', (e) => {
-                if (e.target === recordModal) closeModal();
+            // Botão Adicionar Registro
+            document.getElementById('add-record-btn').addEventListener('click', () => {
+                openModal();
             });
             
-            // Submit do formulário
-            recordForm.addEventListener('submit', handleSubmit);
+            // Botão Fechar Modal
+            document.getElementById('close-modal').addEventListener('click', closeModal);
             
-            // Botão instalar PWA
-            installBtn.addEventListener('click', installPWA);
+            // Botão Cancelar
+            document.getElementById('cancel-btn').addEventListener('click', closeModal);
             
-            // Botão onde encontrar app
-            findAppBtn.addEventListener('click', showFindAppModal);
+            // Formulário
+            document.getElementById('record-form').addEventListener('submit', handleFormSubmit);
             
-            // Botão tema
-            themeToggle.addEventListener('click', toggleTheme);
+            // Botão Atualizar Painel
+            document.getElementById('refresh-btn').addEventListener('click', () => {
+                updateDashboard();
+                updateSensorData();
+            });
             
-            // Event listener para preenchimento automático
-            speciesSelect.addEventListener('change', handleSpeciesChange);
+            // Troca de tema
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            
+            // Clique fora do modal para fechar
+            document.getElementById('record-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'record-modal') {
+                    closeModal();
+                }
+            });
         }
-
-        // ===== FUNÇÕES DE PLATAFORMA =====
         
-        function detectUserPlatform() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            let platform = 'unknown';
+        // ===== FUNÇÕES DO MODAL =====
+        function openModal(recordId = null) {
+            const modal = document.getElementById('record-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const form = document.getElementById('record-form');
             
-            if (userAgent.includes('android')) {
-                platform = 'android';
-            } else if (userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('ipod')) {
-                platform = 'ios';
-            } else if (userAgent.includes('win')) {
-                platform = 'windows';
-            } else if (userAgent.includes('mac')) {
-                platform = 'macos';
-            } else if (userAgent.includes('linux')) {
-                platform = 'linux';
-            }
+            // Resetar formulário
+            form.reset();
             
-            // Salvar plataforma detectada
-            localStorage.setItem('userPlatform', platform);
-        }
-
-        function checkStandaloneMode() {
-            // Verificar se o app está rodando em modo standalone (instalado)
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                               window.navigator.standalone ||
-                               document.referrer.includes('android-app://');
-            
-            if (isStandalone) {
-                // O app está rodando como instalado
-                isAppInstalled = true;
-                localStorage.setItem('appInstalled', 'true');
-                installBtn.classList.add('installed');
-                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
-                findAppBtn.classList.add('show');
+            if (recordId) {
+                // Editar registro
+                editingRecordId = recordId;
+                const record = records.find(r => r.id === recordId);
                 
-                // Mostrar mensagem de boas-vindas
-                setTimeout(() => {
-                    showToast('Bem-vindo ao app instalado!', 'success');
-                }, 1000);
-            }
-        }
-
-        function showFindAppModal() {
-            findAppModal.classList.add('show');
-            
-            // Destacar a plataforma do usuário
-            const userPlatform = localStorage.getItem('userPlatform') || 'unknown';
-            const platformItems = document.querySelectorAll('.platform-item');
-            
-            // Remover destaque de todos
-            platformItems.forEach(item => {
-                item.classList.remove('highlighted');
-            });
-            
-            // Destacar plataforma do usuário
-            let targetId = '';
-            switch(userPlatform) {
-                case 'android':
-                    targetId = 'android-instructions';
-                    break;
-                case 'ios':
-                    targetId = 'ios-instructions';
-                    break;
-                case 'windows':
-                    targetId = 'windows-instructions';
-                    break;
-                case 'macos':
-                    targetId = 'macos-instructions';
-                    break;
-                case 'linux':
-                    targetId = 'linux-instructions';
-                    break;
-            }
-            
-            if (targetId) {
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.classList.add('highlighted');
-                    // Rolar até o elemento destacado
-                    setTimeout(() => {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 300);
-                }
-            }
-        }
-
-        function closeFindAppModal() {
-            findAppModal.classList.remove('show');
-        }
-
-        function checkInstallationAgain() {
-            // Verificar novamente se está em modo standalone
-            checkStandaloneMode();
-            
-            if (isAppInstalled) {
-                showToast('App está instalado e funcionando!', 'success');
-            } else {
-                showToast('App não está instalado. Tente instalar novamente.', 'warning');
-            }
-            
-            closeFindAppModal();
-        }
-
-        function openInBrowser() {
-            // Abrir o site no navegador normal
-            window.open(window.location.href, '_blank');
-            closeFindAppModal();
-        }
-
-        // ===== FUNÇÕES DE TEMA =====
-        
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            if (newTheme === 'dark') {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-            
-            showToast(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativado!`, 'success');
-        }
-
-        // ===== FUNÇÕES DE PROTEÇÃO CONTRA CÓPIA =====
-        
-        function setupCopyProtection() {
-            // Desabilitar clique direito
-            document.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                showProtectionWarning();
-                return false;
-            });
-            
-            // Desabilitar seleção de texto
-            document.addEventListener('selectstart', (e) => {
-                // Permitir seleção apenas em inputs e textareas
-                if (!e.target.matches('input, select, textarea')) {
-                    e.preventDefault();
-                    showProtectionWarning();
-                    return false;
-                }
-            });
-            
-            // Desabilitar atalhos de cópia
-            document.addEventListener('keydown', (e) => {
-                // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U, Ctrl+S, F12
-                if (
-                    (e.ctrlKey || e.metaKey) && 
-                    (e.key === 'c' || e.key === 'x' || e.key === 'a' || e.key === 'u' || e.key === 's') ||
-                    e.key === 'F12'
-                ) {
-                    e.preventDefault();
-                    showProtectionWarning();
-                    return false;
-                }
-            });
-            
-            // Desabilitar drag de imagens
-            document.addEventListener('dragstart', (e) => {
-                if (e.target.tagName === 'IMG') {
-                    e.preventDefault();
-                    showProtectionWarning();
-                    return false;
-                }
-            });
-        }
-
-        function showProtectionWarning() {
-            protectionWarning.classList.add('show');
-            setTimeout(() => {
-                protectionWarning.classList.remove('show');
-            }, 2000);
-        }
-
-        // ===== FUNÇÕES DE PREENCHIMENTO AUTOMÁTICO =====
-        
-        function handleSpeciesChange() {
-            const selectedSpecies = speciesSelect.value;
-            if (selectedSpecies && speciesData[selectedSpecies]) {
-                const data = speciesData[selectedSpecies];
-                incubationDaysInput.value = data.incubationDays;
-                temperatureInput.value = data.temperature;
+                modalTitle.textContent = 'Editar Registro';
                 
-                // Mostrar toast informativo
-                showToast(`Valores padrão para ${data.name} preenchidos!`, 'success');
-            }
-        }
-
-        // ===== FUNÇÕES DE CRUD =====
-        
-        // Carregar registros do localStorage
-        function loadRecords() {
-            const savedRecords = localStorage.getItem('incubadoraRecords');
-            if (savedRecords) {
-                records = JSON.parse(savedRecords);
+                // Preencher formulário
+                document.getElementById('species').value = record.species;
+                document.getElementById('start-date').value = record.startDate;
+                document.getElementById('egg-count').value = record.eggCount;
+                document.getElementById('temperature').value = record.temperature;
+                document.getElementById('humidity').value = record.humidity;
             } else {
-                // Inicializar com alguns dados de exemplo
-                records = [
-                    {
-                        id: Date.now(),
-                        species: 'galinha',
-                        eggCount: 12,
-                        incubationDays: 21,
-                        temperature: 37.5
-                    }
-                ];
-                saveRecords();
+                // Adicionar novo registro
+                editingRecordId = null;
+                modalTitle.textContent = 'Adicionar Registro';
+                
+                // Definir data atual como padrão
+                document.getElementById('start-date').value = new Date().toISOString().split('T')[0];
+                
+                // Preencher com valores dos sensores
+                document.getElementById('temperature').value = sensorData.temperature;
+                document.getElementById('humidity').value = sensorData.humidity;
             }
+            
+            modal.classList.add('show');
         }
-
-        // Salvar registros no localStorage
-        function saveRecords() {
-            localStorage.setItem('incubadoraRecords', JSON.stringify(records));
+        
+        function closeModal() {
+            const modal = document.getElementById('record-modal');
+            modal.classList.remove('show');
+            editingRecordId = null;
         }
-
-        // Adicionar novo registro
-        function addRecord(record) {
-            const newRecord = {
-                ...record,
-                id: Date.now(),
+        
+        // ===== FORMULÁRIO =====
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const species = document.getElementById('species').value;
+            const startDate = document.getElementById('start-date').value;
+            const eggCount = parseInt(document.getElementById('egg-count').value);
+            const temperature = parseFloat(document.getElementById('temperature').value);
+            const humidity = parseInt(document.getElementById('humidity').value);
+            
+            const recordData = {
+                species,
+                startDate,
+                eggCount,
+                temperature,
+                humidity,
                 createdAt: new Date().toISOString()
             };
-            records.unshift(newRecord);
+            
+            if (editingRecordId) {
+                // Atualizar registro existente
+                const index = records.findIndex(r => r.id === editingRecordId);
+                records[index] = { ...records[index], ...recordData };
+            } else {
+                // Adicionar novo registro
+                const newRecord = {
+                    id: Date.now().toString(),
+                    ...recordData
+                };
+                
+                records.push(newRecord);
+            }
+            
+            // Salvar no localStorage
             saveRecords();
+            
+            // Atualizar interface
             renderRecords();
-            showToast('Registro adicionado com sucesso!', 'success');
+            updateDashboard();
+            
+            // Fechar modal
+            closeModal();
         }
-
-        // Atualizar registro
-        function updateRecord(id, updatedRecord) {
-            const index = records.findIndex(r => r.id === id);
-            if (index !== -1) {
-                records[index] = { ...records[index], ...updatedRecord };
-                saveRecords();
-                renderRecords();
-                showToast('Registro atualizado com sucesso!', 'success');
-            }
-        }
-
-        // Excluir registro
-        function deleteRecord(id) {
-            if (confirm('Tem certeza que deseja excluir este registro?')) {
-                records = records.filter(r => r.id !== id);
-                saveRecords();
-                renderRecords();
-                showToast('Registro excluído com sucesso!', 'success');
-            }
-        }
-
-        // ===== FUNÇÕES DE RENDERIZAÇÃO =====
         
-        // Renderizar todos os registros
+        // ===== RENDERIZAÇÃO =====
         function renderRecords() {
+            const recordsGrid = document.getElementById('records-grid');
+            const emptyState = document.getElementById('empty-state');
+            
+            // Limpar grid
+            recordsGrid.innerHTML = '';
+            
             if (records.length === 0) {
-                recordsGrid.style.display = 'none';
+                // Mostrar estado vazio
                 emptyState.style.display = 'block';
                 return;
             }
             
-            recordsGrid.style.display = 'grid';
+            // Esconder estado vazio
             emptyState.style.display = 'none';
             
-            recordsGrid.innerHTML = records.map(record => createRecordCard(record)).join('');
+            // Renderizar cada registro
+            records.forEach(record => {
+                const recordCard = createRecordCard(record);
+                recordsGrid.appendChild(recordCard);
+            });
         }
-
-        // Criar HTML do card de registro
+        
         function createRecordCard(record) {
-            const speciesInfo = speciesData[record.species] || {
-                name: record.species,
-                icon: 'fas fa-egg'
+            const card = document.createElement('div');
+            card.className = 'record-card';
+            card.dataset.id = record.id;
+            
+            // Calcular dias restantes
+            const startDate = new Date(record.startDate);
+            const currentDate = new Date();
+            const daysPassed = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+            
+            // Diferentes períodos de incubação por espécie
+            const incubationDays = {
+                'galinha': 21,
+                'pato': 28,
+                'ganso': 30,
+                'peru': 28,
+                'codorna': 17,
+                'faisao': 23,
+                'pavao': 28,
+                'ema': 40,
+                'avestruz': 42,
+                'marreco': 28,
+                'cisne': 35,
+                'perdiz': 24,
+                'jacu': 24,
+                'mutum': 21
             };
             
-            return `
-                <div class="record-card">
-                    <div class="record-header">
-                        <div class="record-species">
-                            <i class="${speciesInfo.icon}"></i>
-                            ${speciesInfo.name}
-                        </div>
-                        <div class="record-actions">
-                            <button class="icon-btn edit" onclick="editRecord(${record.id})" title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="icon-btn delete" onclick="confirmDelete(${record.id})" title="Excluir">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+            const daysForSpecies = incubationDays[record.species] || 21;
+            const daysRemaining = Math.max(0, daysForSpecies - daysPassed);
+            const progress = Math.min(100, (daysPassed / daysForSpecies) * 100);
+            
+            // Calcular data prevista de eclosão
+            const hatchDate = new Date(startDate);
+            hatchDate.setDate(hatchDate.getDate() + daysForSpecies);
+            
+            // Obter ícone da espécie
+            const speciesIcon = getSpeciesIcon(record.species);
+            
+            card.innerHTML = `
+                <div class="record-header">
+                    <div class="record-species">
+                        <i class="${speciesIcon}"></i>
+                        <span>${capitalizeFirst(record.species)}</span>
                     </div>
-                    <div class="record-info">
-                        <div class="info-item">
-                            <i class="fas fa-egg"></i>
-                            <span class="info-label">Ovos:</span>
-                            <span>${record.eggCount}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-calendar-days"></i>
-                            <span class="info-label">Incubação:</span>
-                            <span>${record.incubationDays} dias</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-temperature-high"></i>
-                            <span class="info-label">Temperatura:</span>
-                            <span>${record.temperature}°C</span>
-                        </div>
+                    <div class="record-actions">
+                        <button class="icon-btn edit" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="icon-btn delete" title="Excluir">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     </div>
                 </div>
+                
+                <div class="record-info">
+                    <div class="info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span><span class="info-label">Início:</span> ${formatDate(record.startDate)}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-egg"></i>
+                        <span><span class="info-label">Ovos:</span> ${record.eggCount}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span><span class="info-label">Temp:</span> ${record.temperature}°C</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-tint"></i>
+                        <span><span class="info-label">Umidade:</span> ${record.humidity}%</span>
+                    </div>
+                </div>
+                
+                <div class="hatch-date">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <div class="hatch-date-text">Previsão de Eclosão</div>
+                        <div>${formatDate(hatchDate.toISOString().split('T')[0])}</div>
+                    </div>
+                    <div class="hatch-date-value">${daysRemaining}d</div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${progress}%;"></div>
+                </div>
             `;
-        }
-
-        // ===== FUNÇÕES DO MODAL =====
-        
-        // Abrir modal
-        function openModal(record = null) {
-            if (record) {
-                editingId = record.id;
-                modalTitle.textContent = 'Editar Registro';
-                speciesSelect.value = record.species;
-                document.getElementById('eggCount').value = record.eggCount;
-                incubationDaysInput.value = record.incubationDays;
-                temperatureInput.value = record.temperature;
-            } else {
-                editingId = null;
-                modalTitle.textContent = 'Adicionar Registro';
-                recordForm.reset();
-            }
-            recordModal.classList.add('show');
-        }
-
-        // Fechar modal
-        function closeModal() {
-            recordModal.classList.remove('show');
-            recordForm.reset();
-            editingId = null;
-        }
-
-        // Editar registro
-        function editRecord(id) {
-            const record = records.find(r => r.id === id);
-            if (record) {
-                openModal(record);
-            }
-        }
-
-        // Confirmar exclusão
-        function confirmDelete(id) {
-            deleteRecord(id);
-        }
-
-        // Handle submit do formulário
-        function handleSubmit(e) {
-            e.preventDefault();
             
-            const formData = {
-                species: document.getElementById('species').value,
-                eggCount: parseInt(document.getElementById('eggCount').value),
-                incubationDays: parseInt(document.getElementById('incubationDays').value),
-                temperature: parseFloat(document.getElementById('temperature').value)
+            // Adicionar eventos aos botões
+            const editBtn = card.querySelector('.edit');
+            const deleteBtn = card.querySelector('.delete');
+            
+            editBtn.addEventListener('click', () => {
+                openModal(record.id);
+            });
+            
+            deleteBtn.addEventListener('click', () => {
+                deleteRecord(record.id);
+            });
+            
+            return card;
+        }
+        
+        // ===== FUNÇÕES AUXILIARES =====
+        function getSpeciesIcon(species) {
+            const icons = {
+                'galinha': 'fas fa-egg',
+                'pato': 'fas fa-duck',
+                'ganso': 'fas fa-dove',
+                'peru': 'fas fa-kiwi-bird',
+                'codorna': 'fas fa-feather',
+                'faisao': 'fas fa-crow',
+                'pavao': 'fas fa-feather-alt',
+                'ema': 'fas fa-horse',
+                'avestruz': 'fas fa-horse',
+                'marreco': 'fas fa-duck',
+                'cisne': 'fas fa-dove',
+                'perdiz': 'fas fa-dove',
+                'jacu': 'fas fa-crow',
+                'mutum': 'fas fa-crow'
             };
             
-            if (editingId) {
-                updateRecord(editingId, formData);
-            } else {
-                addRecord(formData);
-            }
-            
-            closeModal();
+            return icons[species] || 'fas fa-egg';
         }
-
-        // ===== FUNÇÕES DE NOTIFICAÇÃO =====
         
-        // Mostrar toast
-        function showToast(message, type = 'success') {
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         }
-
-        // ===== FUNÇÕES PWA =====
         
-        // Verificar se o app já está instalado
-        function checkIfInstalled() {
-            const isInstalled = localStorage.getItem('appInstalled');
-            if (isInstalled === 'true') {
-                isAppInstalled = true;
-                installBtn.classList.add('installed');
-                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
-                findAppBtn.classList.add('show');
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+        
+        // ===== ARMAZENAMENTO =====
+        function saveRecords() {
+            localStorage.setItem('incubation-records', JSON.stringify(records));
+        }
+        
+        function loadRecords() {
+            const savedRecords = localStorage.getItem('incubation-records');
+            if (savedRecords) {
+                records = JSON.parse(savedRecords);
+                renderRecords();
             }
         }
-
-        // Registrar Service Worker
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                // Criar Service Worker inline
-                const swCode = `
-                    const CACHE_NAME = 'incubadora-v1';
-                    const urlsToCache = [
-                        '/',
-                        'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj48cmVjdCBmaWxsPSIjMWUzYThhIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIvPjxwYXRoIGZpbGw9IiM2MGE1ZmEiIGQ9Ik05NiA0MGMtMzAuOSAwLTU2IDI1LjEtNTYgNTZzMjUuMSA1NiA1NiA1NiA1Ni0yNS4xIDU2LTU2LTI1LjEtNTYtNTYtNTZ6bTAgOTZjLTIyLjEgMC00MC0xNy45LTQwLTQwczE3LjktNDAgNDAtNDAgNDAgMTcuOSA0MCA0MC0xNy45IDQwLTQwIDQweiIvPjxjaXJjbGUgZmlsbD0iIzYwYTVmYSIgY3g9Ijk2IiBjeT0iOTYiIHI9IjIwIi8+PC9zdmc+'
-                    ];
-
-                    self.addEventListener('install', event => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(cache => cache.addAll(urlsToCache))
-                        );
-                    });
-
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then(response => {
-                                    return response || fetch(event.request);
-                                })
-                        );
-                    });
-
-                    self.addEventListener('activate', event => {
-                        event.waitUntil(
-                            caches.keys().then(cacheNames => {
-                                return Promise.all(
-                                    cacheNames.map(cacheName => {
-                                        if (cacheName !== CACHE_NAME) {
-                                            return caches.delete(cacheName);
-                                        }
-                                    })
-                                );
-                            })
-                        );
-                    });
-                `;
-
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                
-                navigator.serviceWorker.register(swUrl).catch(err => {
-                    console.log('Service Worker registration failed:', err);
-                });
+        
+        // ===== EXCLUSÃO =====
+        function deleteRecord(recordId) {
+            if (confirm('Tem certeza que deseja excluir este registro?')) {
+                records = records.filter(r => r.id !== recordId);
+                saveRecords();
+                renderRecords();
+                updateDashboard();
             }
         }
-
-        // Verificar instalação PWA
-        function checkPWAInstall() {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                // Sempre mostrar o botão até instalar
-                installBtn.style.display = 'inline-flex';
-            });
-
-            window.addEventListener('appinstalled', () => {
-                isAppInstalled = true;
-                localStorage.setItem('appInstalled', 'true');
-                installBtn.classList.add('installed');
-                installBtn.innerHTML = '<i class="fas fa-check"></i> Instalado';
-                findAppBtn.classList.add('show');
-                
-                // Mostrar botão "Onde?" após instalação
-                setTimeout(() => {
-                    showToast('App instalado com sucesso! Clique em "Onde?" para saber onde encontrá-lo', 'success');
-                }, 2000);
-            });
-        }
-
-        // Instalar PWA
-        function installPWA() {
-            if (isAppInstalled) {
-                showToast('O app já está instalado!', 'warning');
-                return;
+        
+        // ===== PAINEL DE MONITORAMENTO =====
+        function updateDashboard() {
+            // Calcular estatísticas
+            const totalEggs = records.reduce((sum, record) => sum + record.eggCount, 0);
+            
+            // Atualizar UI
+            document.getElementById('eggs-count').textContent = totalEggs;
+            
+            const eggsStatusText = document.getElementById('eggs-status-text');
+            if (totalEggs === 0) {
+                eggsStatusText.textContent = 'Nenhum';
+            } else if (totalEggs < 10) {
+                eggsStatusText.textContent = 'Poucos';
+            } else {
+                eggsStatusText.textContent = 'Vários';
             }
             
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('Instalação iniciada!', 'success');
-                    } else {
-                        showToast('Instalação cancelada', 'warning');
-                    }
-                    deferredPrompt = null;
+            // Encontrar próximo a eclodir
+            if (records.length > 0) {
+                // Calcular dias restantes para cada registro
+                const recordsWithDaysLeft = records.map(record => {
+                    const startDate = new Date(record.startDate);
+                    const currentDate = new Date();
+                    const daysPassed = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+                    
+                    const incubationDays = {
+                        'galinha': 21,
+                        'pato': 28,
+                        'ganso': 30,
+                        'peru': 28,
+                        'codorna': 17,
+                        'faisao': 23,
+                        'pavao': 28,
+                        'ema': 40,
+                        'avestruz': 42,
+                        'marreco': 28,
+                        'cisne': 35,
+                        'perdiz': 24,
+                        'jacu': 24,
+                        'mutum': 21
+                    };
+                    
+                    const daysForSpecies = incubationDays[record.species] || 21;
+                    const daysLeft = Math.max(0, daysForSpecies - daysPassed);
+                    
+                    return {
+                        ...record,
+                        daysLeft
+                    };
                 });
+                
+                // Encontrar o registro com menos dias restantes
+                const nextRecord = recordsWithDaysLeft.reduce((prev, current) => {
+                    return prev.daysLeft < current.daysLeft ? prev : current;
+                });
+                
+                const hatchStatus = document.getElementById('hatch-status');
+                const hatchSpecies = document.getElementById('hatch-species');
+                
+                if (nextRecord.daysLeft === 0) {
+                    document.getElementById('next-hatch').textContent = 'Hoje!';
+                    hatchStatus.className = 'status-indicator good';
+                    hatchSpecies.textContent = capitalizeFirst(nextRecord.species);
+                } else if (nextRecord.daysLeft <= 3) {
+                    document.getElementById('next-hatch').textContent = `${nextRecord.daysLeft} dias`;
+                    hatchStatus.className = 'status-indicator warning';
+                    hatchSpecies.textContent = capitalizeFirst(nextRecord.species);
+                } else {
+                    document.getElementById('next-hatch').textContent = `${nextRecord.daysLeft} dias`;
+                    hatchStatus.className = 'status-indicator good';
+                    hatchSpecies.textContent = capitalizeFirst(nextRecord.species);
+                }
             } else {
-                showToast('Clique no menu do navegador para instalar', 'warning');
+                document.getElementById('next-hatch').textContent = '--';
+                document.getElementById('hatch-status').className = 'status-indicator';
+                document.getElementById('hatch-species').textContent = '--';
             }
+        }
+        
+        // ===== TEMA =====
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Carregar tema salvo
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
         }
     </script>
 </body>
