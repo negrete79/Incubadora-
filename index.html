@@ -10,13 +10,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="AveproMax">
     
-    <!-- Ícones para PWA -->
-    <link rel="icon" type="image/png" sizes="192x192" href="https://picsum.photos/seed/avepromax/192/192.jpg">
-    <link rel="apple-touch-icon" href="https://picsum.photos/seed/avepromax/180/180.jpg">
-    
-    <!-- Manifesto PWA -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkF2ZXByb01heCAtIFNpc3RlbWEgZGUgSW5jdWJhw6fDo28iLAogICJzaG9ydF9uYW1lIjogIkF2ZXByb01heCIsCiAgImRlc2NyaXB0aW9uIjogIlNpc3RlbWEgY29tcGxldG8gcGFyYSBjb250cm9sZSBkZSBpbmN1YmHDp8OjbyBkZSBvdm9zIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmN2ZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjMmM3YTdiIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQtcHJpbWFyeSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcGljc3VtLnBob3Rvcy9zZWVkL2F2ZXByb21heC8xOTIvMTkyLmpwZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvanBnIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3BpY3N1bS5waG90b3Mvc2VlZC9hdmVwcm9tYXgvMTgwLzE4MC5qcGciLAogICAgICAic2l6ZXMiOiAiMTgweDE4MCIsCiAgICAgICJ0eXBlIjogImltYWdlL2pwZyIKICAgIH0KICBdCn0=">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -51,16 +44,16 @@
 
         /* Proteção contra cópia */
         body {
-            -webkit-user-select: none; /* Safari */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE10+/Edge */
-            user-select: none; /* Standard */
-            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
             -webkit-tap-highlight-color: transparent;
         }
 
         input, textarea {
-            -webkit-user-select: text; /* Permitir seleção em campos de formulário */
+            -webkit-user-select: text;
             -moz-user-select: text;
             -ms-user-select: text;
             user-select: text;
@@ -101,8 +94,14 @@
         }
 
         .logo-emoji {
-            font-size: 2rem;
+            font-size: 2.5rem;
             animation: pulse 2s infinite;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .logo-emoji:hover {
+            transform: scale(1.2) rotate(10deg);
         }
 
         @keyframes pulse {
@@ -775,15 +774,46 @@
             cursor: pointer;
             box-shadow: var(--shadow);
             z-index: 99;
-            transition: transform var(--transition-speed);
+            transition: all var(--transition-speed);
         }
 
         .install-button:hover {
             transform: scale(1.1);
+            background-color: #2a6a6b;
         }
 
         .install-button i {
             font-size: 1.5rem;
+        }
+
+        /* Emoji Selection Styles */
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .emoji-option {
+            font-size: 2.5rem;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-align: center;
+        }
+
+        .emoji-option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(44, 122, 123, 0.05);
+            transform: scale(1.05);
+        }
+
+        .emoji-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(44, 122, 123, 0.1);
         }
     </style>
 </head>
@@ -791,7 +821,7 @@
     <!-- Header -->
     <header class="header">
         <div class="logo">
-            <span class="logo-emoji">🐣</span>
+            <span class="logo-emoji" id="logoEmoji">🥚</span>
             <span>AveproMax</span>
         </div>
         <button class="menu-button" id="menuButton" aria-label="Menu">
@@ -812,6 +842,9 @@
         </a>
         <a href="#active-incubations" class="sidebar-link" data-section="active-incubations">
             <i class="fas fa-clock"></i> Incubações Ativas
+        </a>
+        <a href="#" class="sidebar-link" id="changeEmojiLink">
+            <i class="fas fa-smile"></i> Trocar Emoji
         </a>
         <a href="#" class="sidebar-link" id="resetLink">
             <i class="fas fa-redo"></i> Resetar Sistema
@@ -922,7 +955,7 @@
                     <label class="form-label" for="resetPassword">Digite a senha para confirmar:</label>
                     <input type="password" class="form-input" id="resetPassword" placeholder="Senha">
                 </div>
-                <p class="alert alert-warning">
+                <p style="color: var(--warning-color); font-size: 0.9rem; margin-top: 10px;">
                     <i class="fas fa-exclamation-triangle"></i>
                     <strong>Nota de segurança:</strong> Esta é uma senha de demonstração apenas. Em um ambiente de produção, use autenticação adequada.
                 </p>
@@ -930,6 +963,37 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="resetCancel">Cancelar</button>
                 <button class="btn btn-danger" id="resetConfirm">Resetar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Emoji Modal -->
+    <div class="modal-overlay" id="changeEmojiModal">
+        <div class="modal" role="dialog" aria-labelledby="changeEmojiModalTitle">
+            <div class="modal-header">
+                <h3 class="modal-title" id="changeEmojiModalTitle">Trocar Emoji do Sistema</h3>
+                <button class="modal-close" id="changeEmojiModalClose" aria-label="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Selecione um emoji:</label>
+                    <div class="emoji-grid">
+                        <button class="emoji-option" data-emoji="🥚">🥚</button>
+                        <button class="emoji-option" data-emoji="🐣">🐣</button>
+                        <button class="emoji-option" data-emoji="🐤">🐤</button>
+                        <button class="emoji-option" data-emoji="🐥">🐥</button>
+                        <button class="emoji-option" data-emoji="🦆">🦆</button>
+                        <button class="emoji-option" data-emoji="🦃">🦃</button>
+                        <button class="emoji-option" data-emoji="🦢">🦢</button>
+                        <button class="emoji-option" data-emoji="🦚">🦚</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="changeEmojiCancel">Cancelar</button>
+                <button class="btn btn-primary" id="changeEmojiSave">Salvar</button>
             </div>
         </div>
     </div>
@@ -982,137 +1046,37 @@
         
         // Desabilitar atalhos de teclado
         document.addEventListener('keydown', e => {
-            // Desabilitar F12 (DevTools)
-            if (e.keyCode === 123) {
+            if (e.keyCode === 123) { // F12
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+U (View Source)
-            if (e.ctrlKey && e.keyCode === 85) {
+            if (e.ctrlKey && e.keyCode === 85) { // Ctrl+U
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+Shift+I (DevTools)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) { // Ctrl+Shift+I
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+Shift+J (Console)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) { // Ctrl+Shift+J
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+S (Save)
-            if (e.ctrlKey && e.keyCode === 83) {
+            if (e.ctrlKey && e.keyCode === 83) { // Ctrl+S
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+A (Select All)
-            if (e.ctrlKey && e.keyCode === 65) {
+            if (e.ctrlKey && e.keyCode === 65) { // Ctrl+A
                 e.preventDefault();
                 return false;
             }
-            // Desabilitar Ctrl+C (Copy)
-            if (e.ctrlKey && e.keyCode === 67) {
+            if (e.ctrlKey && e.keyCode === 67) { // Ctrl+C
                 e.preventDefault();
                 return false;
             }
         });
 
-        // PWA - Registrar Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // Criar service worker inline
-                const swCode = `
-                    const CACHE_NAME = 'avepromax-v1';
-                    const urlsToCache = [
-                        '/',
-                        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-                        'https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js',
-                        'https://cdn.jsdelivr.net/npm/chart.js'
-                    ];
-                    
-                    self.addEventListener('install', event => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
-                                    console.log('Opened cache');
-                                    return cache.addAll(urlsToCache);
-                                })
-                        );
-                    });
-                    
-                    self.addEventListener('fetch', event => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then(response => {
-                                    if (response) {
-                                        return response;
-                                    }
-                                    return fetch(event.request);
-                                })
-                        );
-                    });
-                    
-                    self.addEventListener('activate', event => {
-                        const cacheWhitelist = [CACHE_NAME];
-                        event.waitUntil(
-                            caches.keys().then(cacheNames => {
-                                return Promise.all(
-                                    cacheNames.map(cacheName => {
-                                        if (cacheWhitelist.indexOf(cacheName) === -1) {
-                                            return caches.delete(cacheName);
-                                        }
-                                    })
-                                );
-                            })
-                        );
-                    });
-                `;
-                
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                
-                navigator.serviceWorker.register(swUrl)
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
-            });
-        }
-
-        // PWA - Botão de instalação
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'flex';
-            
-            installButton.addEventListener('click', () => {
-                installButton.style.display = 'none';
-                deferredPrompt.prompt();
-                
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            });
-        });
-        
-        window.addEventListener('appinstalled', () => {
-            installButton.style.display = 'none';
-            console.log('PWA was installed');
-        });
-
-        // Dados das espécies (sem "Outra" e "Calopsita")
+        // Dados das espécies
         const speciesData = [
             {
                 id: 'chicken',
@@ -1271,23 +1235,14 @@
         // Variáveis globais
         let selectedSpecies = null;
         let incubations = [];
-        let radioSettings = {
-            stationName: 'Rádio AveproMax',
-            streamUrl: 'https://srv3.soundstream.com.br/listen/sertanejapop/radio.mp3',
-            autoplay: false,
-            volume: 50
-        };
-        let audio = null;
-        let isPlaying = false;
-        let alarmAudio = null;
-        let alarmInterval = null;
         let progressChart = null;
         let currentEditingIncubation = null;
+        let selectedEmoji = '🥚';
 
         // Sons usando Howler.js
         const sounds = {
             notification: new Howl({
-                src: ['data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqPk5eZmJqcnKOio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsfIycrLzM3Oz9DR0tPU1dbX2Nna29zd3t/g4eLj5OXm5+jp6uvs7e7v8PHy8/T19vf4+fr7/P3+/wABAgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj9AQUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVpbXF1eX2BhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ent8fX5/gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2+v8DBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvc3d7f4OHi4+Tl5ufo6err7O3u7/Dx8vP09fb3+Pn6+/z9/v8='],
+                src: ['data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqPk5eZmJqcnKOio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj9AQUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVpbXF1eX2BhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ent8fX5/gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2+v8DBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvc3d7f4OHi4+Tl5ufo6err7O3u7/Dx8vP09fb3+Pn6+/z9/v8='],
                 volume: 0.5
             }),
             alarm: new Howl({
@@ -1297,10 +1252,59 @@
             })
         };
 
+        // PWA - Botão de instalação
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        // Verificar se o app já está instalado
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('App já está instalado no modo standalone');
+            installButton.style.display = 'none';
+        } else {
+            // Mostrar botão de instalação se o navegador suportar
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installButton.style.display = 'flex';
+                
+                installButton.addEventListener('click', () => {
+                    installButton.style.display = 'none';
+                    deferredPrompt.prompt();
+                    
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('Usuário aceitou a instalação');
+                            showToast('Aplicativo instalado com sucesso!', 'success');
+                        } else {
+                            console.log('Usuário recusou a instalação');
+                            installButton.style.display = 'flex';
+                        }
+                        deferredPrompt = null;
+                    });
+                });
+            });
+            
+            // Se o evento não for acionado em 5 segundos, mostrar o botão manualmente
+            setTimeout(() => {
+                if (!deferredPrompt) {
+                    installButton.style.display = 'flex';
+                }
+            }, 5000);
+        }
+
+        window.addEventListener('appinstalled', () => {
+            installButton.style.display = 'none';
+            console.log('PWA foi instalado');
+            showToast('Aplicativo instalado com sucesso!', 'success');
+        });
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             // Carregar dados do localStorage
             loadFromLocalStorage();
+            
+            // Atualizar emoji do logo
+            updateLogoEmoji();
             
             // Renderizar espécies
             renderSpecies();
@@ -1318,31 +1322,42 @@
             checkNotifications();
             
             // Iniciar verificação periódica de notificações
-            setInterval(checkNotifications, 60000); // Verificar a cada minuto
+            setInterval(checkNotifications, 60000);
             
             // Iniciar atualização do monitor em tempo real
-            setInterval(updateRealtimeMonitor, 5000); // Atualizar a cada 5 segundos
+            setInterval(updateRealtimeMonitor, 5000);
         });
 
         // Carregar dados do localStorage
         function loadFromLocalStorage() {
-            // Carregar incubações
             const savedIncubations = localStorage.getItem('incubations');
             if (savedIncubations) {
                 incubations = JSON.parse(savedIncubations);
             }
             
-            // Carregar configurações do rádio
-            const savedRadioSettings = localStorage.getItem('radioSettings');
-            if (savedRadioSettings) {
-                radioSettings = JSON.parse(savedRadioSettings);
+            const savedEmoji = localStorage.getItem('widgetEmoji');
+            if (savedEmoji) {
+                selectedEmoji = savedEmoji;
             }
         }
 
         // Salvar dados no localStorage
         function saveToLocalStorage() {
             localStorage.setItem('incubations', JSON.stringify(incubations));
-            localStorage.setItem('radioSettings', JSON.stringify(radioSettings));
+            localStorage.setItem('widgetEmoji', selectedEmoji);
+        }
+
+        // Atualizar emoji do logo
+        function updateLogoEmoji() {
+            const logoEmoji = document.getElementById('logoEmoji');
+            if (logoEmoji) {
+                logoEmoji.textContent = selectedEmoji;
+                // Forçar uma atualização visual
+                logoEmoji.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    logoEmoji.style.transform = 'scale(1)';
+                }, 200);
+            }
         }
 
         // Renderizar espécies
@@ -1391,6 +1406,11 @@
         function renderIncubatorForm() {
             const incubatorContent = document.getElementById('incubatorContent');
             
+            // Calcular data padrão (duração da incubação)
+            const defaultHatchDate = new Date();
+            defaultHatchDate.setDate(defaultHatchDate.getDate() + selectedSpecies.duration);
+            const formattedDate = defaultHatchDate.toISOString().split('T')[0];
+            
             incubatorContent.innerHTML = `
                 <form id="incubationForm">
                     <div class="form-group">
@@ -1401,6 +1421,12 @@
                     <div class="form-group">
                         <label class="form-label" for="eggQuantity">Quantidade de Ovos:</label>
                         <input type="number" class="form-input" id="eggQuantity" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="hatchDate">Data Prevista para Eclosão:</label>
+                        <input type="date" class="form-input" id="hatchDate" value="${formattedDate}" required>
+                        <small style="color: var(--text-secondary); font-size: 0.8rem;">Data prevista para a eclosão dos ovos</small>
                     </div>
                     
                     <div class="card">
@@ -1459,11 +1485,7 @@
             
             const batchName = document.getElementById('batchName').value || `${selectedSpecies.name} ${new Date().toLocaleDateString()}`;
             const eggQuantity = parseInt(document.getElementById('eggQuantity').value);
-            
-            // Calcular data prevista para eclosão
-            const startDate = new Date();
-            const expectedHatchDate = new Date(startDate);
-            expectedHatchDate.setDate(startDate.getDate() + selectedSpecies.duration);
+            const hatchDate = document.getElementById('hatchDate').value;
             
             // Criar nova incubação
             const newIncubation = {
@@ -1473,16 +1495,15 @@
                 speciesIcon: selectedSpecies.icon,
                 batchName,
                 eggQuantity,
-                startDate: startDate.toISOString(),
-                expectedHatchDate: expectedHatchDate.toISOString(),
+                startDate: new Date().toISOString(),
+                hatchDate: hatchDate,
                 duration: selectedSpecies.duration,
                 temperature: selectedSpecies.temperature,
                 humidity: selectedSpecies.humidity,
                 turning: selectedSpecies.turning,
                 stages: selectedSpecies.stages,
-                notifiedStages: [], // Array para armazenar estágios já notificados
+                notifiedStages: [],
                 active: true,
-                // Dados simulados para monitor em tempo real
                 currentTemp: parseFloat(selectedSpecies.temperature),
                 currentHumidity: parseInt(selectedSpecies.humidity),
                 turningStatus: true,
@@ -1537,7 +1558,6 @@
                     </div>
                 `;
                 
-                // Destruir gráfico se existir
                 if (progressChart) {
                     progressChart.destroy();
                     progressChart = null;
@@ -1756,13 +1776,12 @@
                 if (incubation.duration > 0) {
                     progress = Math.min(100, Math.floor(daysPassed / incubation.duration * 100));
                 } else {
-                    // Evitar divisão por zero quando duration === 0
                     progress = daysPassed > 0 ? 100 : 0;
                 }
                 
-                // Formatar data prevista para eclosão
-                const expectedHatchDate = new Date(incubation.expectedHatchDate);
-                const formattedHatchDate = expectedHatchDate.toLocaleDateString('pt-BR');
+                // Formatar data de eclosão para exibição
+                const hatchDate = new Date(incubation.hatchDate);
+                const formattedHatchDate = hatchDate.toLocaleDateString('pt-BR');
                 
                 const incubationCard = document.createElement('div');
                 incubationCard.className = 'incubation-card';
@@ -1788,7 +1807,7 @@
                         <span>Dias restantes: ${daysRemaining}</span>
                     </div>
                     <div class="incubation-info">
-                        <span><strong>Previsão de eclosão:</strong> ${formattedHatchDate}</span>
+                        <span><i class="fas fa-egg-hatching"></i> Eclosão prevista: ${formattedHatchDate}</span>
                     </div>
                     <div class="incubation-params">
                         <span class="param-tag">${incubation.temperature}</span>
@@ -1853,13 +1872,12 @@
             if (incubation.duration > 0) {
                 progress = Math.min(100, Math.floor(daysPassed / incubation.duration * 100));
             } else {
-                // Evitar divisão por zero quando duration === 0
                 progress = daysPassed > 0 ? 100 : 0;
             }
             
-            // Formatar data prevista para eclosão
-            const expectedHatchDate = new Date(incubation.expectedHatchDate);
-            const formattedHatchDate = expectedHatchDate.toLocaleDateString('pt-BR');
+            // Formatar data de eclosão para exibição
+            const hatchDate = new Date(incubation.hatchDate);
+            const formattedHatchDate = hatchDate.toLocaleDateString('pt-BR');
             
             const content = document.getElementById('incubationDetailsContent');
             content.innerHTML = `
@@ -1868,7 +1886,7 @@
                     <p><strong>Espécie:</strong> ${incubation.speciesIcon} ${incubation.speciesName}</p>
                     <p><strong>Quantidade de Ovos:</strong> ${incubation.eggQuantity}</p>
                     <p><strong>Data de Início:</strong> ${new Date(incubation.startDate).toLocaleDateString()}</p>
-                    <p><strong>Previsão de Eclosão:</strong> ${formattedHatchDate}</p>
+                    <p><strong>Data Prevista para Eclosão:</strong> ${formattedHatchDate}</p>
                     <p><strong>Duração:</strong> ${incubation.duration} dias</p>
                     <p><strong>Dias Passados:</strong> ${daysPassed}</p>
                     <p><strong>Dias Restantes:</strong> ${daysRemaining}</p>
@@ -1929,12 +1947,9 @@
             
             currentEditingIncubation = incubation;
             
-            // Formatar datas para os campos do formulário
-            const startDate = new Date(incubation.startDate);
-            const formattedStartDate = startDate.toISOString().split('T')[0];
-            
-            const expectedHatchDate = new Date(incubation.expectedHatchDate);
-            const formattedHatchDate = expectedHatchDate.toISOString().split('T')[0];
+            // Formatar data de eclosão para o input
+            const hatchDate = new Date(incubation.hatchDate);
+            const formattedHatchDate = hatchDate.toISOString().split('T')[0];
             
             const content = document.getElementById('editIncubationContent');
             content.innerHTML = `
@@ -1951,7 +1966,7 @@
                     
                     <div class="form-group">
                         <label class="form-label" for="editStartDate">Data de Início:</label>
-                        <input type="date" class="form-input" id="editStartDate" value="${formattedStartDate}" required>
+                        <input type="date" class="form-input" id="editStartDate" value="${new Date(incubation.startDate).toISOString().split('T')[0]}" required>
                     </div>
                     
                     <div class="form-group">
@@ -2009,7 +2024,7 @@
                 incubations[incubationIndex].batchName = batchName;
                 incubations[incubationIndex].eggQuantity = eggQuantity;
                 incubations[incubationIndex].startDate = new Date(startDate).toISOString();
-                incubations[incubationIndex].expectedHatchDate = new Date(hatchDate).toISOString();
+                incubations[incubationIndex].hatchDate = hatchDate;
                 incubations[incubationIndex].currentTemp = currentTemp;
                 incubations[incubationIndex].currentHumidity = currentHumidity;
                 
@@ -2087,34 +2102,19 @@
                 
                 // Verificar estágios que precisam de notificação
                 incubation.stages.forEach(stage => {
-                    // Verificar se o estágio atual foi atingido e ainda não foi notificado
                     if (daysPassed >= stage.day && !incubation.notifiedStages.includes(stage.day)) {
-                        // Adicionar estágio à lista de notificados
                         incubation.notifiedStages.push(stage.day);
-                        
-                        // Salvar no localStorage
                         saveToLocalStorage();
-                        
-                        // Exibir notificação
                         showToast(`${incubation.batchName}: ${stage.name}`, 'warning');
-                        
-                        // Tocar som de notificação
                         playNotificationSound();
                     }
                 });
                 
                 // Verificar se a incubação foi concluída
                 if (daysPassed >= incubation.duration && !incubation.notifiedStages.includes('completed')) {
-                    // Adicionar estágio à lista de notificados
                     incubation.notifiedStages.push('completed');
-                    
-                    // Salvar no localStorage
                     saveToLocalStorage();
-                    
-                    // Exibir notificação
                     showToast(`${incubation.batchName}: Incubação concluída!`, 'success');
-                    
-                    // Tocar som de notificação
                     playNotificationSound();
                 }
                 
@@ -2136,16 +2136,13 @@
 
         // Tocar alarme alto
         function playHighAlarm(message) {
-            // Exibir indicador visual
             const alarmIndicator = document.getElementById('alarmIndicator');
             const alarmMessage = document.getElementById('alarmMessage');
             alarmMessage.textContent = message || 'Alarme!';
             alarmIndicator.classList.add('active');
             
-            // Configurar evento para parar alarme
             document.getElementById('alarmStop').onclick = stopAlarm;
             
-            // Tocar o alarme em loop
             sounds.alarm.play();
         }
 
@@ -2203,7 +2200,6 @@
                     if (section) {
                         e.preventDefault();
                         scrollToSection(section);
-                        // Fechar sidebar apenas se estiver aberta
                         if (document.getElementById('sidebar').classList.contains('open')) {
                             toggleSidebar();
                         }
@@ -2211,10 +2207,43 @@
                 });
             });
             
+            // Link para trocar emoji
+            document.getElementById('changeEmojiLink').addEventListener('click', (e) => {
+                e.preventDefault();
+                showChangeEmojiModal();
+            });
+            
             // Reset link
             document.getElementById('resetLink').addEventListener('click', (e) => {
                 e.preventDefault();
                 showResetModal();
+            });
+            
+            // Modal de troca de emoji
+            document.getElementById('changeEmojiModalClose').addEventListener('click', () => {
+                document.getElementById('changeEmojiModal').classList.remove('active');
+            });
+            
+            document.getElementById('changeEmojiCancel').addEventListener('click', () => {
+                document.getElementById('changeEmojiModal').classList.remove('active');
+            });
+            
+            document.getElementById('changeEmojiSave').addEventListener('click', saveSelectedEmoji);
+            
+            // Opções de emoji
+            document.querySelectorAll('.emoji-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    // Remover seleção anterior
+                    document.querySelectorAll('.emoji-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Adicionar seleção ao emoji atual
+                    e.currentTarget.classList.add('selected');
+                    
+                    // Armazenar emoji selecionado
+                    selectedEmoji = e.currentTarget.dataset.emoji;
+                });
             });
             
             // Reset modal
@@ -2252,6 +2281,47 @@
             }
         }
 
+        // Mostrar modal de troca de emoji
+        function showChangeEmojiModal() {
+            // Limpar seleção anterior
+            document.querySelectorAll('.emoji-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Selecionar emoji atual
+            const currentOption = document.querySelector(`.emoji-option[data-emoji="${selectedEmoji}"]`);
+            if (currentOption) {
+                currentOption.classList.add('selected');
+            }
+            
+            document.getElementById('changeEmojiModal').classList.add('active');
+        }
+
+        // Salvar emoji selecionado
+        function saveSelectedEmoji() {
+            // Verificar se algum emoji foi selecionado
+            const selectedOption = document.querySelector('.emoji-option.selected');
+            if (!selectedOption) {
+                showToast('Por favor, selecione um emoji!', 'warning');
+                return;
+            }
+            
+            // Atualizar emoji
+            selectedEmoji = selectedOption.dataset.emoji;
+            
+            // Salvar no localStorage
+            saveToLocalStorage();
+            
+            // Atualizar logo
+            updateLogoEmoji();
+            
+            // Fechar modal
+            document.getElementById('changeEmojiModal').classList.remove('active');
+            
+            // Exibir notificação
+            showToast('Emoji atualizado com sucesso!', 'success');
+        }
+
         // Mostrar modal de reset
         function showResetModal() {
             document.getElementById('resetPassword').value = '';
@@ -2262,12 +2332,9 @@
         function resetSystem() {
             const password = document.getElementById('resetPassword').value;
             
-            // TODO: Em um ambiente de produção, use autenticação adequada em vez de senha hardcoded
             if (password === 'admin123') {
-                // Mostrar notificação de sucesso
                 showToast('Sistema resetado com sucesso! A página será recarregada em instantes...', 'success');
                 
-                // Limpar localStorage após um pequeno delay para permitir que a notificação seja vista
                 setTimeout(() => {
                     localStorage.clear();
                     location.reload();
