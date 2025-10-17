@@ -9,6 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="AveproMax">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkF2ZXByb01heCAtIFNpc3RlbWEgZGUgSW5jdWJhw6fDo28iLAogICJzaG9ydF9uYW1lIjogIkF2ZXByb01heCIsCiAgImRlc2NyaXB0aW9uIjogIlNpc3RlbWEgY29tcGxldG8gcGFyYSBjb250cm9sZSBkZSBpbmN1YmHDp8OjbyBkZSBvdm9zIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmN2ZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjMmM3YTdiIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi0xOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImljb24tNTEyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
@@ -821,7 +822,7 @@
     <!-- Header -->
     <header class="header">
         <div class="logo">
-            <span class="logo-emoji" id="logoEmoji">🥚</span>
+            <span class="logo-emoji" id="logoEmoji" title="Clique para trocar o emoji">🥚</span>
             <span>AveproMax</span>
         </div>
         <button class="menu-button" id="menuButton" aria-label="Menu">
@@ -924,7 +925,7 @@
     </footer>
 
     <!-- PWA Install Button -->
-    <button class="install-button" id="installButton" style="display: none;" aria-label="Instalar aplicativo">
+    <button class="install-button" id="installButton" aria-label="Instalar aplicativo">
         <i class="fas fa-download"></i>
     </button>
 
@@ -1256,47 +1257,97 @@
         let deferredPrompt;
         const installButton = document.getElementById('installButton');
 
-        // Verificar se o app já está instalado
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('App já está instalado no modo standalone');
-            installButton.style.display = 'none';
-        } else {
-            // Mostrar botão de instalação se o navegador suportar
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installButton.style.display = 'flex';
-                
-                installButton.addEventListener('click', () => {
-                    installButton.style.display = 'none';
+        // Função para verificar se o PWA pode ser instalado
+        function canInstallPWA() {
+            // Verificar se o app já está instalado
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                window.navigator.standalone === true || 
+                document.referrer.includes('android-app://')) {
+                console.log('App já está instalado');
+                return false;
+            }
+            
+            // Verificar se o navegador suporta service worker e beforeinstallprompt
+            if ('serviceWorker' in navigator && 'BeforeInstallPromptEvent' in window) {
+                console.log('Navegador suporta instalação de PWA');
+                return true;
+            }
+            
+            // Verificar se é um navegador móvel que pode instalar PWAs
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                console.log('Dispositivo móvel detectado');
+                return true;
+            }
+            
+            console.log('Navegador não suporta instalação direta de PWA');
+            return false;
+        }
+
+        // Inicializar o botão de instalação
+        function initializeInstallButton() {
+            console.log('Inicializando botão de instalação...');
+            
+            if (!canInstallPWA()) {
+                console.log('Instalação não é necessária ou suportada');
+                installButton.style.display = 'none';
+                return;
+            }
+            
+            // Mostrar o botão imediatamente
+            installButton.style.display = 'flex';
+            console.log('Botão de instalação exibido');
+            
+            // Configurar evento de clique
+            installButton.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    // Usar o prompt nativo se disponível
                     deferredPrompt.prompt();
-                    
                     deferredPrompt.userChoice.then((choiceResult) => {
                         if (choiceResult.outcome === 'accepted') {
                             console.log('Usuário aceitou a instalação');
                             showToast('Aplicativo instalado com sucesso!', 'success');
                         } else {
                             console.log('Usuário recusou a instalação');
-                            installButton.style.display = 'flex';
                         }
                         deferredPrompt = null;
                     });
-                });
+                } else {
+                    // Fallback para navegadores que não suportam beforeinstallprompt
+                    showInstallInstructions();
+                }
             });
             
-            // Se o evento não for acionado em 5 segundos, mostrar o botão manualmente
-            setTimeout(() => {
-                if (!deferredPrompt) {
-                    installButton.style.display = 'flex';
-                }
-            }, 5000);
+            // Configurar evento beforeinstallprompt se suportado
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                console.log('Evento beforeinstallprompt capturado');
+                installButton.style.display = 'flex';
+            });
+            
+            // Configurar evento appinstalled
+            window.addEventListener('appinstalled', () => {
+                console.log('PWA foi instalado');
+                installButton.style.display = 'none';
+                showToast('Aplicativo instalado com sucesso!', 'success');
+            });
         }
 
-        window.addEventListener('appinstalled', () => {
-            installButton.style.display = 'none';
-            console.log('PWA foi instalado');
-            showToast('Aplicativo instalado com sucesso!', 'success');
-        });
+        // Mostrar instruções de instalação manual
+        function showInstallInstructions() {
+            let message = 'Para instalar este aplicativo: ';
+            
+            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                message += 'Toque no ícone de compartilhamento e depois em "Adicionar à Tela Início"';
+            } else if (/Android/i.test(navigator.userAgent)) {
+                message += 'Toque no menu (⋮) e depois em "Adicionar à tela inicial" ou "Instalar aplicativo"';
+            } else {
+                message += 'Procure a opção de instalação no menu do navegador ou na barra de endereço';
+            }
+            
+            showToast(message, 'info');
+        }
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
@@ -1326,6 +1377,21 @@
             
             // Iniciar atualização do monitor em tempo real
             setInterval(updateRealtimeMonitor, 5000);
+            
+            // Adicionar evento de clique ao emoji do logo
+            const logoEmoji = document.getElementById('logoEmoji');
+            if (logoEmoji) {
+                logoEmoji.addEventListener('click', () => {
+                    showChangeEmojiModal();
+                });
+                logoEmoji.style.cursor = 'pointer';
+                console.log("Evento de clique adicionado ao emoji do logo");
+            } else {
+                console.error("Elemento logoEmoji não encontrado!");
+            }
+            
+            // Inicializar botão de instalação
+            initializeInstallButton();
         });
 
         // Carregar dados do localStorage
@@ -2308,9 +2374,11 @@
             
             // Atualizar emoji
             selectedEmoji = selectedOption.dataset.emoji;
+            console.log("Emoji selecionado:", selectedEmoji);
             
             // Salvar no localStorage
-            saveToLocalStorage();
+            localStorage.setItem('widgetEmoji', selectedEmoji);
+            console.log("Emoji salvo no localStorage");
             
             // Atualizar logo
             updateLogoEmoji();
