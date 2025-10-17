@@ -9,7 +9,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="AveproMax">
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkF2ZXByb01heCAtIFNpc3RlbWEgZGUgSW5jdWJhw6fDo28iLAogICJzaG9ydF9uYW1lIjogIkF2ZXByb01heCIsCiAgImRlc2NyaXB0aW9uIjogIlNpc3RlbWEgY29tcGxldG8gcGFyYSBjb250cm9sZSBkZSBpbmN1YmHDp8OjbyBkZSBvdm9zIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmN2ZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjMmM3YTdiIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi0xOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImljb24tNTEyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    
+    <!-- Manifesto PWA dinâmico -->
+    <link rel="manifest" id="appManifest" href="">
+    
+    <!-- Ícones padrão -->
+    <link rel="apple-touch-icon" id="appleIcon" href="">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
@@ -816,6 +821,54 @@
             border-color: var(--primary-color);
             background-color: rgba(44, 122, 123, 0.1);
         }
+
+        /* PWA Icon Selection Styles */
+        .pwa-icon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pwa-icon-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .pwa-icon-option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(44, 122, 123, 0.05);
+            transform: scale(1.02);
+        }
+
+        .pwa-icon-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(44, 122, 123, 0.1);
+        }
+
+        .pwa-icon-preview {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .pwa-icon-name {
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -845,7 +898,7 @@
             <i class="fas fa-clock"></i> Incubações Ativas
         </a>
         <a href="#" class="sidebar-link" id="changeEmojiLink">
-            <i class="fas fa-smile"></i> Trocar Emoji
+            <i class="fas fa-smile"></i> Personalizar App
         </a>
         <a href="#" class="sidebar-link" id="resetLink">
             <i class="fas fa-redo"></i> Resetar Sistema
@@ -972,14 +1025,14 @@
     <div class="modal-overlay" id="changeEmojiModal">
         <div class="modal" role="dialog" aria-labelledby="changeEmojiModalTitle">
             <div class="modal-header">
-                <h3 class="modal-title" id="changeEmojiModalTitle">Trocar Emoji do Sistema</h3>
+                <h3 class="modal-title" id="changeEmojiModalTitle">Personalizar Aplicativo</h3>
                 <button class="modal-close" id="changeEmojiModalClose" aria-label="Fechar">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">Selecione um emoji:</label>
+                    <label class="form-label">Emoji do Logo:</label>
                     <div class="emoji-grid">
                         <button class="emoji-option" data-emoji="🥚">🥚</button>
                         <button class="emoji-option" data-emoji="🐣">🐣</button>
@@ -990,6 +1043,23 @@
                         <button class="emoji-option" data-emoji="🦢">🦢</button>
                         <button class="emoji-option" data-emoji="🦚">🦚</button>
                     </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Ícone do Aplicativo (PWA):</label>
+                    <div class="pwa-icon-grid">
+                        <div class="pwa-icon-option" data-pwa-icon="ovo">
+                            <div class="pwa-icon-preview">🥚</div>
+                            <div class="pwa-icon-name">Ovo</div>
+                        </div>
+                        <div class="pwa-icon-option" data-pwa-icon="pintinho">
+                            <div class="pwa-icon-preview">🐣</div>
+                            <div class="pwa-icon-name">Pintinho</div>
+                        </div>
+                    </div>
+                    <small style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 10px; display: block;">
+                        Reinstale o aplicativo para aplicar as mudanças
+                    </small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1239,6 +1309,7 @@
         let progressChart = null;
         let currentEditingIncubation = null;
         let selectedEmoji = '🥚';
+        let selectedPWAIcon = 'ovo';
 
         // Sons usando Howler.js
         const sounds = {
@@ -1349,8 +1420,52 @@
             showToast(message, 'info');
         }
 
+        // Inicialização do PWA
+        function initializePWA() {
+            // Carregar preferências do PWA
+            loadPWAPreferences();
+            
+            // Definir manifesto e ícones
+            updatePWAIcons();
+            
+            // Inicializar botão de instalação
+            initializeInstallButton();
+        }
+
+        // Carregar preferências do PWA
+        function loadPWAPreferences() {
+            const savedEmoji = localStorage.getItem('widgetEmoji');
+            if (savedEmoji) {
+                selectedEmoji = savedEmoji;
+            }
+            
+            const savedPWAIcon = localStorage.getItem('pwaIconType');
+            if (savedPWAIcon) {
+                selectedPWAIcon = savedPWAIcon;
+            }
+        }
+
+        // Atualizar ícones do PWA
+        function updatePWAIcons() {
+            // Manifestos pré-definidos em base64
+            const manifestOvo = "ewogICJuYW1lIjogIkF2ZXByb01heCAtIFNpc3RlbWEgZGUgSW5jdWJhw6fDo28iLAogICJzaG9ydF9uYW1lIjogIkF2ZXByb01heCIsCiAgImRlc2NyaXB0aW9uIjogIlNpc3RlbWEgY29tcGxldG8gcGFyYSBjb250cm9sZSBkZSBpbmN1YmHDp8OjbyBkZSBvdm9zIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmN2ZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjMmM3YTdiIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi1vdm8tMTkyLnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJpY29uLW92by01MTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXQp9";
+            
+            const manifestPintinho = "ewogICJuYW1lIjogIkF2ZXByb01heCAtIFNpc3RlbWEgZGUgSW5jdWJhw6fDo28iLAogICJzaG9ydF9uYW1lIjogIkF2ZXByb01heCIsCiAgImRlc2NyaXB0aW9uIjogIlNpc3RlbWEgY29tcGxldG8gcGFyYSBjb250cm9sZSBkZSBpbmN1YmHDp8OjbyBkZSBvdm9zIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmN2ZhZmMiLAogICJ0aGVtZV9jb2xvciI6ICIjMmM3YTdiIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaWNvbi1waW50aW5oby0xOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImljb24tcGludGluaG8tNTEyLnBuZyIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==";
+            
+            // Definir manifesto
+            const manifestLink = document.getElementById('appManifest');
+            manifestLink.href = `data:application/json;base64,${selectedPWAIcon === 'ovo' ? manifestOvo : manifestPintinho}`;
+            
+            // Definir ícone para iOS
+            const appleIcon = document.getElementById('appleIcon');
+            appleIcon.href = selectedPWAIcon === 'ovo' ? 'icon-ovo-192.png' : 'icon-pintinho-192.png';
+        }
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar PWA
+            initializePWA();
+            
             // Carregar dados do localStorage
             loadFromLocalStorage();
             
@@ -1389,9 +1504,6 @@
             } else {
                 console.error("Elemento logoEmoji não encontrado!");
             }
-            
-            // Inicializar botão de instalação
-            initializeInstallButton();
         });
 
         // Carregar dados do localStorage
@@ -1400,17 +1512,13 @@
             if (savedIncubations) {
                 incubations = JSON.parse(savedIncubations);
             }
-            
-            const savedEmoji = localStorage.getItem('widgetEmoji');
-            if (savedEmoji) {
-                selectedEmoji = savedEmoji;
-            }
         }
 
         // Salvar dados no localStorage
         function saveToLocalStorage() {
             localStorage.setItem('incubations', JSON.stringify(incubations));
             localStorage.setItem('widgetEmoji', selectedEmoji);
+            localStorage.setItem('pwaIconType', selectedPWAIcon);
         }
 
         // Atualizar emoji do logo
@@ -2312,6 +2420,22 @@
                 });
             });
             
+            // Opções de ícone PWA
+            document.querySelectorAll('.pwa-icon-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    // Remover seleção anterior
+                    document.querySelectorAll('.pwa-icon-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Adicionar seleção ao ícone atual
+                    e.currentTarget.classList.add('selected');
+                    
+                    // Armazenar ícone selecionado
+                    selectedPWAIcon = e.currentTarget.dataset.pwaIcon;
+                });
+            });
+            
             // Reset modal
             document.getElementById('resetModalClose').addEventListener('click', () => {
                 document.getElementById('resetModal').classList.remove('active');
@@ -2360,6 +2484,17 @@
                 currentOption.classList.add('selected');
             }
             
+            // Limpar seleção de ícone PWA
+            document.querySelectorAll('.pwa-icon-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Selecionar ícone PWA atual
+            const currentPWAOption = document.querySelector(`.pwa-icon-option[data-pwa-icon="${selectedPWAIcon}"]`);
+            if (currentPWAOption) {
+                currentPWAOption.classList.add('selected');
+            }
+            
             document.getElementById('changeEmojiModal').classList.add('active');
         }
 
@@ -2372,22 +2507,36 @@
                 return;
             }
             
+            // Verificar se algum ícone PWA foi selecionado
+            const selectedPWAOption = document.querySelector('.pwa-icon-option.selected');
+            if (!selectedPWAOption) {
+                showToast('Por favor, selecione um ícone para o aplicativo!', 'warning');
+                return;
+            }
+            
             // Atualizar emoji
             selectedEmoji = selectedOption.dataset.emoji;
             console.log("Emoji selecionado:", selectedEmoji);
             
+            // Atualizar ícone PWA
+            selectedPWAIcon = selectedPWAOption.dataset.pwaIcon;
+            console.log("Ícone PWA selecionado:", selectedPWAIcon);
+            
             // Salvar no localStorage
-            localStorage.setItem('widgetEmoji', selectedEmoji);
-            console.log("Emoji salvo no localStorage");
+            saveToLocalStorage();
+            console.log("Preferências salvas no localStorage");
             
             // Atualizar logo
             updateLogoEmoji();
+            
+            // Atualizar ícones do PWA
+            updatePWAIcons();
             
             // Fechar modal
             document.getElementById('changeEmojiModal').classList.remove('active');
             
             // Exibir notificação
-            showToast('Emoji atualizado com sucesso!', 'success');
+            showToast('Personalizações salvas com sucesso! Reinstale o app para ver o novo ícone.', 'success');
         }
 
         // Mostrar modal de reset
